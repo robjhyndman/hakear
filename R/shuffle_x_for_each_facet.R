@@ -1,38 +1,33 @@
-##' .. content for \description{} (no empty lines) ..
-##'
-##' .. content for \details{} ..
-##'
-##' @title
-##' @param sim_panel_data
-##' @return
-##' @author Sayani Gupta
-##' @export
-##' @example
-#'sim_panel_ex  = sim_panel(nx = 3,
-#'                        nfacet = 2,
-#'                        ntimes = 2,
-#'                        sim_dist = #'sim_varf_dist1)
-#'shuffle_x_for_each_facet(sim_panel_ex)
-
-
+#' .. content for \description{} no empty lines) ..
+#'
+#' .. content for \details{} ..
+#'
+#' @title
+#' @param sim_panel_data
+#' @return
+#' @author Sayani Gupta
+#' @export
 shuffle_x_for_each_facet <- function(sim_panel_data) {
-
   sim_panel_data <- sim_panel_data %>%
     unnest(cols = c(data)) %>%
     ungroup()
 
-  nx <- sim_panel_data %>% distinct(nx) %>% .$nx
-  nfacet <- sim_panel_data %>% distinct(nfacet) %>% .$nfacet
+  nx <- sim_panel_data %>%
+    distinct(nx) %>%
+    .$nx
+  nfacet <- sim_panel_data %>%
+    distinct(nfacet) %>%
+    .$nfacet
 
 
-  shuffled_data <- lapply(seq_len(nfacet), function(i){
-    #shuffled_data <- (seq_len(nfacet)) %>%
-    #map_df(function(i){
-    #(nx)%>%
-    #map_df(function(j){
-    filter_data = sim_panel_data %>% dplyr::filter(id_facet==i)
+  shuffled_data <- lapply(seq_len(nfacet), function(i) {
+    # shuffled_data <- (seq_len(nfacet)) %>%
+    # map_df(function(i){
+    # (nx)%>%
+    # map_df(function(j){
+    filter_data <- sim_panel_data %>% dplyr::filter(id_facet == i)
 
-    new_sim_data = sample(filter_data$sim_data, nrow(filter_data))
+    new_sim_data <- sample(filter_data$sim_data, nrow(filter_data))
 
     bind_cols(filter_data, new_sim_data = new_sim_data)
   }) %>%
@@ -59,6 +54,6 @@ shuffle_x_for_each_facet <- function(sim_panel_data) {
   #       unnest(samp)
   #
   shuffled_data %>%
-    group_by(nfacet, nx,id_facet, id_x)  %>%
+    group_by(nfacet, nx, id_facet, id_x) %>%
     nest()
 }
