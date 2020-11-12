@@ -16,13 +16,16 @@ compute_mmpd_panel_grid <- function(sim_null_split, quantile_prob = seq(
                                     ), dist_ordered = TRUE, nperm = 20) {
   l <- length(sim_null_split)
 
-  mclapply(seq_len(l), function(i) {
+  tic()
+  result <- mclapply(seq_len(l), function(i) {
     compute_mmpd_panel(
       sim_null_split[[i]],
-      nperm,
-      dist_ordered
+      quantile_prob,
+      dist_ordered,
+      nperm
     )
   })
+  toc()
 }
 
 

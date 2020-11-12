@@ -12,38 +12,51 @@
 distance_panel <- function(sim_panel_quantiles,
                            quantile_prob = seq(0.01, 0.99, 0.01),
                            dist_ordered = TRUE) {
-  ncoly <- sim_panel_quantiles %>%
-    distinct(id_facet) %>%
-    nrow()
-  nrowy <- sim_panel_quantiles %>%
-    distinct(id_x) %>%
-    nrow()
+  # ncoly <- sim_panel_quantiles %>%
+  #   distinct(id_facet) %>%
+  #   nrow()
+  # nrowy <- sim_panel_quantiles %>%
+  #   distinct(id_x) %>%
+  #   nrow()
+
+# range of i, j and k are defined in this way since some cyclic granularities start from 0 and others from 1 -  it was creating a problem while filtering in m1 and m2, where m2 was leading to a tibble of 0 rows and JS function was failing
+
+  i_start <- levels(sim_panel_quantiles$id_x) %>% as.numeric() %>% min()
+
+  i_stop <- levels(sim_panel_quantiles$id_x) %>% as.numeric() %>% max() - 1
+
+  #j_start = i+1
+
+  j_stop <- levels(sim_panel_quantiles$id_x) %>% as.numeric() %>% max()
+
+  k_start <- levels(sim_panel_quantiles$id_facet) %>% as.numeric() %>% min()
+
+  k_stop <- levels(sim_panel_quantiles$id_facet) %>% as.numeric() %>% max()
+
 
   # (seq_len(nrowy)) %>%
 
 
   # k_range <- seq_len(ncoly) %>% data.frame()
 
-  lapply(seq_len(ncoly), function(k) {
+  mclapply(k_start:k_stop, function(k) {
 
     # nperm_data_n <- mclapply(2:nperm,
     #                        function(i)
 
     # i_range <- data.frame(1:(nrowy-1))
-    dist_facet <- lapply(1:(nrowy - 1), function(i) {
+    dist_facet <- mclapply(i_start:i_stop, function(i) {
 
       # j_range <-   data.frame(((i + 1):nrowy))
 
-      dist <- lapply((i + 1):nrowy, function(j) {
-        m1 <- sim_panel_quantiles %>%
-          unnest(cols = c(sim_data_quantile)) %>%
-          dplyr::filter(id_facet == k, id_x == i) %>%
-          select(sim_data_quantile)
+      dist <- mclapply((i+1):j_stop, function(j) {
 
-        m2 <- sim_panel_quantiles %>%
-          unnest(cols = c(sim_data_quantile)) %>%
-          dplyr::filter(id_facet == k, id_x == j) %>%
-          select(sim_data_quantile)
+        m <- sim_panel_quantiles %>%
+          unnest(cols = c(sim_data_quantile))
+
+        m1 <- m[m$id_facet==k & m$id_x ==i, ]
+
+        m2 <-  m[m$id_facet==k & m$id_x ==j, ]
 
         z <- JS(prob = quantile_prob, m1$sim_data_quantile, m2$sim_data_quantile)
         if (dist_ordered) {
@@ -51,10 +64,12 @@ distance_panel <- function(sim_panel_quantiles,
             z <- NA
           }
         }
+
         return(z)
       }) %>%
         t() %>%
         as_tibble(.name_repair = ~ vctrs::vec_as_names(..., repair = "unique", quiet = TRUE))
+
 
       dist %>%
         select_if(not_is_na)
@@ -83,3 +98,4 @@ pmf <- function(x, p, q) {
   qpmf <- c(0, diff(qcdf) / (x[2] - x[1]))
   return(qpmf / sum(qpmf))
 }
+

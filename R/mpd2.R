@@ -10,10 +10,12 @@
 ##' @export
 mpd2 <- function(sim_panel_data,
                  distance_panel_data,
-                 nperm = 20) {
-  sim_panel_adjust <- sim_panel_data %>%
-    ungroup() %>%
-    unnest(c(data))
+                 nperm = 100) {
+  # sim_panel_adjust <- sim_panel_data %>%
+  #   ungroup() %>%
+  #   unnest(c(data))
+
+  sim_panel_adjust <- sim_panel_data
 
   panel_row <- distance_panel_data %>%
     tidyr::pivot_longer(cols = -1, names_to = "j") %>%
@@ -35,7 +37,7 @@ mpd2 <- function(sim_panel_data,
 
   nperm_data <- data.frame(2:nperm)
   # nperm_data_n <- (2:nperm) %>%
-  nperm_data_n <- lapply(
+  nperm_data_n <- mclapply(
     2:nperm,
     function(i) {
       z <- NULL
@@ -43,8 +45,7 @@ mpd2 <- function(sim_panel_data,
       perm_data <- sim_panel_adjust %>%
         select(-sim_data) %>%
         mutate(sim_data = perm_data_sam) %>%
-        group_by(nfacet, nx, id_facet, id_x) %>%
-        nest() %>%
+        group_by(id_facet, id_x) %>%
         compute_quantiles() %>%
         distance_panel() %>%
         pivot_longer(-1,
