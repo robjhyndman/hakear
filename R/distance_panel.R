@@ -21,6 +21,15 @@ distance_panel <- function(sim_panel_quantiles,
 
   # range of i, j and k are defined in this way since some cyclic granularities start from 0 and others from 1 -  it was creating a problem while filtering in m1 and m2, where m2 was leading to a tibble of 0 rows and JS function was failing
 
+  if(class(sim_panel_quantiles$id_x) == "character")
+  {
+    sim_panel_quantiles$id_x = as.numeric(as.factor(sim_panel_quantiles$id_x)) %>% factor()
+  }
+  if(class(sim_panel_quantiles$id_facet) == "character")
+  {
+    sim_panel_quantiles$id_facet = as.numeric(as.factor(sim_panel_quantiles$id_facet)) %>% factor()
+  }
+
   i_start <- levels(sim_panel_quantiles$id_x) %>%
     as.numeric() %>%
     min()
@@ -49,17 +58,17 @@ distance_panel <- function(sim_panel_quantiles,
 
   # k_range <- seq_len(ncoly) %>% data.frame()
 
-  mclapply(k_start:k_stop, function(k) {
+  lapply(k_start:k_stop, function(k) {
 
-    # nperm_data_n <- mclapply(2:nperm,
+    # nperm_data_n <- lapply(2:nperm,
     #                        function(i)
 
     # i_range <- data.frame(1:(nrowy-1))
-    dist_facet <- mclapply(i_start:i_stop, function(i) {
+    dist_facet <- lapply(i_start:i_stop, function(i) {
 
       # j_range <-   data.frame(((i + 1):nrowy))
 
-      dist <- mclapply((i + 1):j_stop, function(j) {
+      dist <- lapply((i + 1):j_stop, function(j) {
         m <- sim_panel_quantiles %>%
           unnest(cols = c(sim_data_quantile))
 
@@ -86,7 +95,7 @@ distance_panel <- function(sim_panel_quantiles,
 
     bind_cols(id_facet = k, dist_facet = dist_facet)
   }) %>% bind_rows()
-}
+  }
 
 
 
