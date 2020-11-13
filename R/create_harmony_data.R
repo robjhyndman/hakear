@@ -7,17 +7,18 @@
 #' @return a tibble with the harmony pair and response variable
 #'
 #' @examples
-# sm <- smart_meter10 %>%
-# filter(customer_id %in% c("10017936"))
-# harmonies <- sm %>%
-#  harmony(
-#    ugran = "month",
-#    filter_in = "wknd_wday",
-#    filter_out = c("hhour", "fortnight")
-#  )
-#'panel_data = create_harmony_data(sm,
-#'harmony_tbl[3,], general_supply_kwh)
-
+#' sm <- smart_meter10 %>%
+#'   filter(customer_id %in% c("10017936"))
+#' harmonies <- sm %>%
+#'   harmony(
+#'     ugran = "month",
+#'     filter_in = "wknd_wday",
+#'     filter_out = c("hhour", "fortnight")
+#'   )
+#' panel_data <- create_harmony_data(
+#'   sm,
+#'   harmonies[3, ], general_supply_kwh
+#' )
 #' @export
 create_harmony_data <- function(.data, harmony_tbl_row, response) {
   .data %>%
@@ -27,6 +28,6 @@ create_harmony_data <- function(.data, harmony_tbl_row, response) {
     select(
       id_facet = harmony_tbl_row$facet_variable,
       id_x = harmony_tbl_row$x_variable,
-      sim_data = {{response}}
+      sim_data = {{ response }}
     )
 }

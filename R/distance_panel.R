@@ -19,19 +19,29 @@ distance_panel <- function(sim_panel_quantiles,
   #   distinct(id_x) %>%
   #   nrow()
 
-# range of i, j and k are defined in this way since some cyclic granularities start from 0 and others from 1 -  it was creating a problem while filtering in m1 and m2, where m2 was leading to a tibble of 0 rows and JS function was failing
+  # range of i, j and k are defined in this way since some cyclic granularities start from 0 and others from 1 -  it was creating a problem while filtering in m1 and m2, where m2 was leading to a tibble of 0 rows and JS function was failing
 
-  i_start <- levels(sim_panel_quantiles$id_x) %>% as.numeric() %>% min()
+  i_start <- levels(sim_panel_quantiles$id_x) %>%
+    as.numeric() %>%
+    min()
 
-  i_stop <- levels(sim_panel_quantiles$id_x) %>% as.numeric() %>% max() - 1
+  i_stop <- levels(sim_panel_quantiles$id_x) %>%
+    as.numeric() %>%
+    max() - 1
 
-  #j_start = i+1
+  # j_start = i+1
 
-  j_stop <- levels(sim_panel_quantiles$id_x) %>% as.numeric() %>% max()
+  j_stop <- levels(sim_panel_quantiles$id_x) %>%
+    as.numeric() %>%
+    max()
 
-  k_start <- levels(sim_panel_quantiles$id_facet) %>% as.numeric() %>% min()
+  k_start <- levels(sim_panel_quantiles$id_facet) %>%
+    as.numeric() %>%
+    min()
 
-  k_stop <- levels(sim_panel_quantiles$id_facet) %>% as.numeric() %>% max()
+  k_stop <- levels(sim_panel_quantiles$id_facet) %>%
+    as.numeric() %>%
+    max()
 
 
   # (seq_len(nrowy)) %>%
@@ -49,14 +59,13 @@ distance_panel <- function(sim_panel_quantiles,
 
       # j_range <-   data.frame(((i + 1):nrowy))
 
-      dist <- mclapply((i+1):j_stop, function(j) {
-
+      dist <- mclapply((i + 1):j_stop, function(j) {
         m <- sim_panel_quantiles %>%
           unnest(cols = c(sim_data_quantile))
 
-        m1 <- m[m$id_facet==k & m$id_x ==i, ]
+        m1 <- m[m$id_facet == k & m$id_x == i, ]
 
-        m2 <-  m[m$id_facet==k & m$id_x ==j, ]
+        m2 <- m[m$id_facet == k & m$id_x == j, ]
 
         z <- JS(prob = quantile_prob, m1$sim_data_quantile, m2$sim_data_quantile)
         if (dist_ordered) {
@@ -78,6 +87,9 @@ distance_panel <- function(sim_panel_quantiles,
     bind_cols(id_facet = k, dist_facet = dist_facet)
   }) %>% bind_rows()
 }
+
+
+
 not_is_na <- function(x) any(!is.na(x))
 
 JS <- function(prob, q, p) {
@@ -98,4 +110,3 @@ pmf <- function(x, p, q) {
   qpmf <- c(0, diff(qcdf) / (x[2] - x[1]))
   return(qpmf / sum(qpmf))
 }
-
