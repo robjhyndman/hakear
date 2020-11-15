@@ -6,7 +6,6 @@
 #' @param response
 #'
 #' @return
-#' @export
 #'
 #' @examples
 #' library(tidyverse)
@@ -19,6 +18,7 @@
 #'v = compute_mmpd(sm, gran_x, gran_facet,
 #'response = general_supply_kwh)
 #'#month of the year not working in this setup
+#' @export
 compute_mmpd <- function(.data,
                         gran_x = NULL,
                         gran_facet = NULL,

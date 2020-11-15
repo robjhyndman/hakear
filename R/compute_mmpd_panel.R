@@ -28,7 +28,7 @@
 #'                             dist_ordered = TRUE,
 #'                             nperm = 20)
 
-#' @export
+#' @export compute_mmpd_panel
 compute_mmpd_panel <- function(.data,
                                quantile_prob =
                                  seq(0.01, 0.99, 0.01),
