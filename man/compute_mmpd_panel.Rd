@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_mmpd_panel.R
 \name{compute_mmpd_panel}
 \alias{compute_mmpd_panel}
-\title{}
+\title{compute normalised mmpd for a panel}
 \usage{
 compute_mmpd_panel(
   .data,
@@ -18,11 +18,8 @@ compute_mmpd_panel(
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+compute normalised mmpd for a panel
 }
 \author{
-Sayani07
+Sayani07s
 }

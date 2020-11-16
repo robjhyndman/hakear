@@ -1,10 +1,11 @@
-#' Title
+#' Title Compute raw mmpd
 #'
-#' @param .data
-#' @param gran_x
-#' @param gran_y
-#' @param response
-#'
+#' @param .data data for which mmpd needs to be calculated
+#' @param gran_x granularities mapped across x levels
+#' @param gran_facet granularities mapped across facetss
+#' @param response univarite response variable
+#' @param quantile_prob probabilities
+#' @param dist_ordered if categories are ordered
 #' @return
 #'
 #' @examples

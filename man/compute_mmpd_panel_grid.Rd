@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_mmpd_panel_grid.R
 \name{compute_mmpd_panel_grid}
 \alias{compute_mmpd_panel_grid}
-\title{}
+\title{normalised mmpd for a grid after shuffling twice/once}
 \usage{
 compute_mmpd_panel_grid(
   sim_null_split,
@@ -15,10 +15,7 @@ compute_mmpd_panel_grid(
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+normalised mmpd for a grid after shuffling twice/once
 }
 \author{
 Sayani Gupta

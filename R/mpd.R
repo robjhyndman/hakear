@@ -1,13 +1,9 @@
-##' .. content for \description{} (no empty lines) ..
-##'
-##' .. content for \details{} ..
-##'
-##' @title
-##' @param distance_panel_data
-##' @param nperm
-##' @return
-##' @author Sayani07
-##' @export
+#' @title aggregation across x levels
+#' @param distance_panel_data distance between x levels
+#' @param nperm number of permutations
+#' @return
+#' @author Sayani07
+#' @export
 
 mpd <- function(sim_panel_data, distance_panel_data, nperm = 20) {
   nfacet <- nrow(distance_panel_data)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/mmpd.R
 \name{mmpd}
 \alias{mmpd}
-\title{}
+\title{aggregation across facets}
 \usage{
 mmpd(sim_panel_data, normx_data, nperm = 20)
 }
@@ -10,10 +10,7 @@ mmpd(sim_panel_data, normx_data, nperm = 20)
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+aggregation across facets
 }
 \author{
 Sayani07

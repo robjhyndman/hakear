@@ -1,14 +1,12 @@
-##' .. content for \description{} (no empty lines) ..
-##'
-##' .. content for \details{} ..
-##'
-##' @title
-##' @param sim_panel_data
-##' @param quantile_prob
-##' @param method
-##' @return
-##' @author Sayani07
-##' @export
+#' @title computing distances between quantile categories
+#'
+#' @param sim_panel_quantiles quantile data
+#' @param dist_ordered if categories are ordered
+#' @param quantile_prob numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot
+#'
+#' @return
+#' @author Sayani07
+#' @export
 distance_panel <- function(sim_panel_quantiles,
                            quantile_prob = seq(0.01, 0.99, 0.01),
                            dist_ordered = TRUE) {

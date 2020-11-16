@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_mmpd.R
 \name{compute_mmpd}
 \alias{compute_mmpd}
-\title{Title}
+\title{Title Compute raw mmpd}
 \usage{
 compute_mmpd(
   .data,
@@ -14,13 +14,23 @@ compute_mmpd(
 )
 }
 \arguments{
-\item{response}{}
+\item{.data}{data for which mmpd needs to be calculated}
+
+\item{gran_x}{granularities mapped across x levels}
+
+\item{gran_facet}{granularities mapped across facetss}
+
+\item{response}{univarite response variable}
+
+\item{quantile_prob}{probabilities}
+
+\item{dist_ordered}{if categories are ordered}
 }
 \value{
 
 }
 \description{
-Title
+Title Compute raw mmpd
 }
 \examples{
 library(tidyverse)

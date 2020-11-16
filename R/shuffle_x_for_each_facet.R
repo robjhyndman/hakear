@@ -1,12 +1,10 @@
-#' .. content for \description{} no empty lines) ..
+#' Title shuffle x levels for each facet
+#' @param sim_panel_data the data for which different permutations #' are needed
 #'
-#' .. content for \details{} ..
-#'
-#' @title
-#' @param sim_panel_data
-#' @return
-#' @author Sayani Gupta
+#' @return shuffled data
 #' @export
+#'
+#' @examples
 shuffle_x_for_each_facet <- function(sim_panel_data) {
   sim_panel_data <- sim_panel_data %>%
     unnest(cols = c(data)) %>%

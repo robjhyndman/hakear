@@ -1,15 +1,11 @@
-##' .. content for \description{} (no empty lines) ..
-##'
-##' .. content for \details{} ..
-##'
-##' @title
-##' @param sim_null_split
-##' @param quantile_prob
-##' @param dist_ordered
-##' @param nperm
-##' @return
-##' @author Sayani Gupta
-##' @export
+#' @title normalised mmpd for a grid after shuffling twice/once
+#' @param sim_null_split
+#' @param quantile_prob
+#' @param dist_ordered
+#' @param nperm
+#' @return
+#' @author Sayani Gupta
+#' @export
 compute_mmpd_panel_grid <- function(sim_null_split, quantile_prob = seq(
                                       0.01,
                                       0.99, 0.01

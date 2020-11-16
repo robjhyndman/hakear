@@ -2,7 +2,7 @@
 % Please edit documentation in R/distance_panel.R
 \name{distance_panel}
 \alias{distance_panel}
-\title{}
+\title{computing distances between quantile categories}
 \usage{
 distance_panel(
   sim_panel_quantiles,
@@ -10,14 +10,18 @@ distance_panel(
   dist_ordered = TRUE
 )
 }
+\arguments{
+\item{sim_panel_quantiles}{quantile data}
+
+\item{quantile_prob}{numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot}
+
+\item{dist_ordered}{if categories are ordered}
+}
 \value{
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+computing distances between quantile categories
 }
 \author{
 Sayani07

@@ -1,8 +1,8 @@
-#' Title
+#' Title rank mmpd
 #'
-#' @param .data
-#' @param harmony_tbl
-#' @param response
+#' @param .data data
+#' @param harmony_tbl harmony table in the context
+#' @param responses response variable
 #'
 #' @return
 #' @export

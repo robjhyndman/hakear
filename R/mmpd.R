@@ -1,13 +1,10 @@
-##' .. content for \description{} (no empty lines) ..
-##'
-##' .. content for \details{} ..
-##'
-##' @title
-##' @param normx_data
-##' @param nperm
-##' @return
-##' @author Sayani07
-##' @export
+#' @title aggregation across facets
+#' @param normx_data normalised across x data
+#' @param nperm number of permutations for estimating paramters
+#' across facets
+#' @return mmpd value
+#' @author Sayani07
+#' @export
 mmpd <- function(sim_panel_data, normx_data, nperm = 20) {
   panel_facet <- normx_data %>% select(id_facet, norm_x)
 

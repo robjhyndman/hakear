@@ -1,10 +1,8 @@
-##' .. content for \description{} (no empty lines) ..
+##' @title compute quantiles of data across categories
 ##'
-##' .. content for \details{} ..
-##'
-##' @title
 ##' @param sim_panel_data
 ##' @param quantile_prob
+##'
 ##' @return
 ##' @author Sayani07
 ##' @export

@@ -2,18 +2,18 @@
 % Please edit documentation in R/compute_quantiles.R
 \name{compute_quantiles}
 \alias{compute_quantiles}
-\title{}
+\title{compute quantiles of data across categories}
 \usage{
 compute_quantiles(sim_panel_data, quantile_prob = seq(0.01, 0.99, 0.01))
+}
+\arguments{
+\item{quantile_prob}{}
 }
 \value{
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+compute quantiles of data across categories
 }
 \author{
 Sayani07

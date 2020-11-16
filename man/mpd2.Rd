@@ -2,7 +2,7 @@
 % Please edit documentation in R/mpd2.R
 \name{mpd2}
 \alias{mpd2}
-\title{}
+\title{shuffling only once mmpd}
 \usage{
 mpd2(sim_panel_data, distance_panel_data, nperm = 100)
 }
@@ -10,10 +10,7 @@ mpd2(sim_panel_data, distance_panel_data, nperm = 100)
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+shuffling only once mmpd
 }
 \author{
 Sayani07

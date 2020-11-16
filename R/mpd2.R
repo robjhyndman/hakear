@@ -1,8 +1,4 @@
-##' .. content for \description{} (no empty lines) ..
-##'
-##' .. content for \details{} ..
-##'
-##' @title
+##' @title shuffling only once mmpd
 ##' @param distance_panel_data
 ##' @param nperm
 ##' @return

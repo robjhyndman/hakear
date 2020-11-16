@@ -2,7 +2,7 @@
 % Please edit documentation in R/mpd.R
 \name{mpd}
 \alias{mpd}
-\title{}
+\title{aggregation across x levels}
 \usage{
 mpd(sim_panel_data, distance_panel_data, nperm = 20)
 }
@@ -10,10 +10,7 @@ mpd(sim_panel_data, distance_panel_data, nperm = 20)
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+aggregation across x levels
 }
 \author{
 Sayani07

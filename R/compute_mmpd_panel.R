@@ -1,8 +1,4 @@
-#' .. content for \description{} (no empty lines) ..
-#'
-#' .. content for \details{} ..
-#'
-#' @title
+#' @title compute normalised mmpd for a panel
 #'
 #' @param quantile_prob
 #' @param dist_ordered
@@ -10,7 +6,7 @@
 #' @param nperm
 #'
 #' @return
-#' @author Sayani07
+#' @author Sayani07s
 #' @example
 #' sm <- smart_meter10 %>%
 #' filter(customer_id %in% c("10017936"))

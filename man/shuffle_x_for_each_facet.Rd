@@ -2,19 +2,16 @@
 % Please edit documentation in R/shuffle_x_for_each_facet.R
 \name{shuffle_x_for_each_facet}
 \alias{shuffle_x_for_each_facet}
-\title{}
+\title{Title shuffle x levels for each facet}
 \usage{
 shuffle_x_for_each_facet(sim_panel_data)
+}
+\arguments{
+\item{sim_panel_data}{the data for which different permutations #' are needed}
 }
 \value{
 
 }
 \description{
-.. content for \description{} no empty lines) ..
-}
-\details{
-.. content for \details{} ..
-}
-\author{
-Sayani Gupta
+Title shuffle x levels for each facet
 }
