@@ -28,6 +28,14 @@ compute_mmpd <- function(.data,
                         seq(0.01, 0.99, 0.01),
                         dist_ordered = TRUE)
 {
+ if(!((gran_x %in%  names(.data) &
+          (gran_facet %in%  names(.data)))))
+    {
+        .data <- .data %>%
+            create_gran(gran_x) %>%
+            create_gran(gran_facet)
+    }
+
  .data %>%
     create_gran(gran_x) %>%
     create_gran(gran_facet) %>%
