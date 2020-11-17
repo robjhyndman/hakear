@@ -27,7 +27,7 @@ compute_mmpd <- function(.data,
                         quantile_prob =
                         seq(0.01, 0.99, 0.01),
                         dist_ordered = TRUE)
-{{
+{
     if(!((gran_x %in%  names(.data) &
           (gran_facet %in%  names(.data)))))
     {
