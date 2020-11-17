@@ -22,6 +22,10 @@
 #'               ntimes = 50,
 #'               sim_dist = sim_null_normal) %>%
 #'  unnest(c(data))
+#' sim_grid_split <- sim_panel_grid_data %>%
+#' group_by(nx, nfacet) %>%
+#' group_split()
+#'
 #' @export
 sim_panel_grid <- function(range_nx = 2:7,
                            range_nfacet = 2:7, ntimes = 500, sim_dist = sim_null_dist1) {

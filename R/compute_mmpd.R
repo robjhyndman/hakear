@@ -27,8 +27,8 @@ compute_mmpd <- function(.data,
                         quantile_prob =
                         seq(0.01, 0.99, 0.01),
                         dist_ordered = TRUE)
-{
- if(!((gran_x %in%  names(.data) &
+{{
+    if(!((gran_x %in%  names(.data) &
           (gran_facet %in%  names(.data)))))
     {
         .data <- .data %>%
@@ -36,18 +36,16 @@ compute_mmpd <- function(.data,
             create_gran(gran_facet)
     }
 
- .data %>%
-    create_gran(gran_x) %>%
-    create_gran(gran_facet) %>%
-    as_tibble() %>%
-    select(!!gran_x, !!gran_facet, {{response}}) %>%
-    rename("id_facet" = !!gran_facet) %>%
-    rename("id_x" = !!gran_x) %>%
-    rename("sim_data" = {{response}}) %>%
+    .data %>%
+        as_tibble() %>%
+        select(!!gran_x, !!gran_facet, {{response}}) %>%
+        rename("id_facet" = !!gran_facet) %>%
+        rename("id_x" = !!gran_x) %>%
+        rename("sim_data" = {{response}}) %>%
         compute_quantiles(
-        quantile_prob =
-            quantile_prob
-    ) %>%
+            quantile_prob =
+                quantile_prob
+        ) %>%
         distance_panel(dist_ordered = dist_ordered) %>%
         tidyr::pivot_longer(cols = -1, names_to = "j") %>%
         select(id_facet, value) %>%
@@ -57,4 +55,3 @@ compute_mmpd <- function(.data,
         summarise(mmpd_wo_norm =  round(median(max, na.rm = TRUE),3)) %>%
         pull(mmpd_wo_norm)
 }
-
