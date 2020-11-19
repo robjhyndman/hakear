@@ -17,7 +17,7 @@
 #'gran_x = "week_month"
 #'gran_facet = "week_fortnight"
 #'v = compute_mmpd_norm(sm, gran_x, gran_facet,
-#'response = general_supply_kwh, nperm = 100)
+#'response = general_supply_kwh, nperm = 10)
 #'#month of the year not working in this setup
 #' @export compute_mmpd_norm
 compute_mmpd_norm <- function(.data,
