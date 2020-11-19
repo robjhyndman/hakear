@@ -29,6 +29,7 @@
 #' sim_grid_split <- sim_panel_grid_data %>%
 #'   group_by(nx, nfacet) %>%
 #'   group_split()
+#'   @export sim_panel_grid
 sim_panel_grid <- function(range_nx = 2:7, range_nfacet = 2:7, ntimes = 5000, sim_dist = sim_null_dist1) {
   (range_nx) %>%
     map_df(function(i) {
