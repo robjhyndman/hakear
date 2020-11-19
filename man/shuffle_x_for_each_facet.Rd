@@ -10,7 +10,7 @@ shuffle_x_for_each_facet(sim_panel_data)
 \item{sim_panel_data}{the data for which different permutations #' are needed}
 }
 \value{
-
+shuffled data
 }
 \description{
 Title shuffle x levels for each facet

@@ -6,8 +6,14 @@
 \usage{
 mmpd(sim_panel_data, normx_data, nperm = 20)
 }
-\value{
+\arguments{
+\item{normx_data}{normalised across x data}
 
+\item{nperm}{number of permutations for estimating paramters
+across facets}
+}
+\value{
+mmpd value
 }
 \description{
 aggregation across facets

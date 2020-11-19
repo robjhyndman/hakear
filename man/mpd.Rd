@@ -6,6 +6,11 @@
 \usage{
 mpd(sim_panel_data, distance_panel_data, nperm = 20)
 }
+\arguments{
+\item{distance_panel_data}{distance between x levels}
+
+\item{nperm}{number of permutations}
+}
 \value{
 
 }

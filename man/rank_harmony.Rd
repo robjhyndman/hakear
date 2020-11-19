@@ -2,16 +2,20 @@
 % Please edit documentation in R/rank_mmpd.R
 \name{rank_harmony}
 \alias{rank_harmony}
-\title{Title}
+\title{Title rank mmpd}
 \usage{
 rank_harmony(.data, harmony_tbl, response, nperm = 20)
 }
 \arguments{
-\item{response}{}
+\item{.data}{data}
+
+\item{harmony_tbl}{harmony table in the context}
+
+\item{responses}{response variable}
 }
 \value{
 
 }
 \description{
-Title
+Title rank mmpd
 }
