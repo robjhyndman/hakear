@@ -41,6 +41,7 @@ sim_panel_grid_data <-
 sim_grid_split <- sim_panel_grid_data \%>\%
   group_by(nx, nfacet) \%>\%
   group_split()
+  @export sim_panel_grid
 }
 \author{
 Sayani Gupta
