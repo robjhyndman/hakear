@@ -36,6 +36,7 @@ compute_mmpd <- function(.data,
             create_gran(gran_facet)
     }
 
+   suppressMessages(
     .data %>%
         as_tibble() %>%
         select(!!gran_x, !!gran_facet, {{response}}) %>%
@@ -53,5 +54,5 @@ compute_mmpd <- function(.data,
         summarise(
             max = max(unlist(value), na.rm = TRUE)) %>%
         summarise(mmpd_wo_norm =  round(median(max, na.rm = TRUE),3)) %>%
-        pull(mmpd_wo_norm)
+        pull(mmpd_wo_norm))
 }
