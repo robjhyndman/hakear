@@ -17,7 +17,7 @@
 #'gran_x = "week_month"
 #'gran_facet = "week_fortnight"
 #'v = compute_mmpd_norm(sm, gran_x, gran_facet,
-#'response = general_supply_kwh, nperm = 10)
+#'response = general_supply_kwh, nperm = 100)
 #'#month of the year not working in this setup
 #' @export compute_mmpd_norm
 compute_mmpd_norm <- function(.data,
@@ -42,7 +42,7 @@ compute_mmpd_norm <- function(.data,
       create_gran(gran_facet)
   }
 
-  shuffle_data <-  lapply(seq_len(nperm),
+  shuffle_data <-  mclapply(seq_len(nperm),
                         function(x){
                 set.seed(2020 + x)
                 rows = sample(nrow(.data))
