@@ -25,7 +25,8 @@ Imports:
   magrittr,
   utils,
   distributional,
-  tidyselect
+  tidyselect,
+  parallel
 Suggests:
     knitr,
     tsibbledata (>= 0.1.0),
