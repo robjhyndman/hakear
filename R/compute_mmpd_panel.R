@@ -1,15 +1,13 @@
-##' .. content for \description{} (no empty lines) ..
+##' @title compute mmpd for a panel
 ##'
-##' .. content for \details{} ..
-##'
-##' @title
-##' @param slct_lvl_orig
 ##' @param quantile_prob
 ##' @param dist_ordered
+##' @param .data
 ##' @param nperm
+##'
 ##' @return
 ##' @author Sayani07
-##' @export
+##' @export compute_mmpd_panel
 compute_mmpd_panel <- function(.data, quantile_prob = seq(
                                  0.01,
                                  0.99, 0.01

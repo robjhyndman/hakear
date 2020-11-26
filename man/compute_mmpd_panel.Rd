@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_mmpd_panel.R
 \name{compute_mmpd_panel}
 \alias{compute_mmpd_panel}
-\title{}
+\title{compute mmpd for a panel}
 \usage{
 compute_mmpd_panel(
   .data,
@@ -11,14 +11,14 @@ compute_mmpd_panel(
   nperm = 20
 )
 }
+\arguments{
+\item{nperm}{}
+}
 \value{
 
 }
 \description{
-.. content for \description{} (no empty lines) ..
-}
-\details{
-.. content for \details{} ..
+compute mmpd for a panel
 }
 \author{
 Sayani07
