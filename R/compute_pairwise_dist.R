@@ -1,4 +1,4 @@
-#' Title Compute raw mmpd
+#' Title computing all within and between facet distances between quantile categories given a data
 #'
 #' @param .data data for which mmpd needs to be calculated
 #' @param gran_x granularities mapped across x levels
@@ -16,27 +16,28 @@
 #'   filter(customer_id %in% c("10017936"))
 #' gran_x <- "week_month"
 #' gran_facet <- "week_fortnight"
-#' v <- compute_mmpd(sm, gran_x, gran_facet,
+#' v <- compute_pairwise_dist(sm, gran_x, gran_facet,
 #'   response = general_supply_kwh
 #' )
 #' # month of the year not working in this setup
 #' @export
-compute_mmpd <- function(.data,
+compute_pairwise_dist <- function(.data,
                          gran_x = NULL,
                          gran_facet = NULL,
                          response = NULL,
                          quantile_prob =
                            seq(0.01, 0.99, 0.01),
-                         dist_ordered = TRUE) {
+                         dist_ordered = TRUE,
+                         lambda = 0.67) {
 
   if (!((gran_x %in% names(.data) &
-    (gran_facet %in% names(.data))))) {
+         (gran_facet %in% names(.data))))) {
     .data <- .data %>%
       create_gran(gran_x) %>%
       create_gran(gran_facet)
   }
 
-  suppressMessages(
+  all_dist_data <- suppressMessages(
     .data %>%
       as_tibble() %>%
       select(!!gran_x, !!gran_facet, {{ response }}) %>%
@@ -47,14 +48,11 @@ compute_mmpd <- function(.data,
         quantile_prob =
           quantile_prob
       ) %>%
-      distance_panel(dist_ordered = dist_ordered) %>%
-      tidyr::pivot_longer(cols = -1, names_to = "j") %>%
-      select(id_facet, value) %>%
-      group_by(id_facet) %>%
-      summarise(
-        max = max(unlist(value), na.rm = TRUE)
-      ) %>%
-      summarise(mmpd_wo_norm = round(median(max, na.rm = TRUE), 3)) %>%
-      pull(mmpd_wo_norm)
+      distance_all_pairwise(dist_ordered = dist_ordered,
+                            lambda = lambda)
+
   )
-}
+
+  all_dist_data
+    }
+

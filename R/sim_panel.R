@@ -11,6 +11,7 @@ sim_panel <- function(nx = 2, nfacet = 3,
                       ntimes = 5,
                       sim_dist =
                         sim_varf_dist1) {
+
   sim_dist_data <- sim_dist(nx, nfacet)
 
   id_x <- rep(seq_len(nx), nfacet)
