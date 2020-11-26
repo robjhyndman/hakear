@@ -38,10 +38,11 @@ library(tidyverse)
 library(gravitas)
 library(parallel)
 sm <- smart_meter10 \%>\%
-filter(customer_id \%in\% c("10017936"))
-gran_x = "week_month"
-gran_facet = "week_fortnight"
-v = compute_mmpd_norm(sm, gran_x, gran_facet,
-response = general_supply_kwh, nperm = 10)
-#month of the year not working in this setup
+  filter(customer_id \%in\% c("10017936"))
+gran_x <- "week_month"
+gran_facet <- "week_fortnight"
+v <- compute_mmpd_norm(sm, gran_x, gran_facet,
+  response = general_supply_kwh, nperm = 10
+)
+# month of the year not working in this setup
 }

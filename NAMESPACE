@@ -2,8 +2,11 @@
 
 export(compute_mmpd)
 export(compute_mmpd_norm)
+export(compute_pairwise_dist)
+export(compute_pairwise_max)
 export(compute_quantiles)
 export(create_harmony_data)
 export(create_harmony_tbl_data)
+export(distance_all_pairwise)
 export(distance_panel)
 export(sim_panel)

@@ -6,7 +6,7 @@
 #'
 #' @return
 #' @author Sayani07
-#' @export
+#' @export distance_all_pairwise
 distance_all_pairwise <- function(sim_panel_quantiles,
                            quantile_prob = seq(0.01, 0.99, 0.01),
                            dist_ordered = TRUE,

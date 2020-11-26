@@ -20,7 +20,7 @@
 #'   response = general_supply_kwh
 #' )
 #' # month of the year not working in this setup
-#' @export
+#' @export compute_pairwise_max
 compute_pairwise_max <- function(.data,
                          gran_x = NULL,
                          gran_facet = NULL,
