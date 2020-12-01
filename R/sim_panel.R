@@ -11,9 +11,9 @@ sim_panel <- function(nx = 2, nfacet = 3,
                       ntimes = 5,
                       sim_dist =
                         sim_varf_dist1) {
-
-  sim_varf_dist1 = function(nx, nfacet){
-    rep(dist_normal(seq(mean,mean*nfacet, by = mean), sd), each = nx)}
+  sim_varf_dist1 <- function(nx, nfacet) {
+    rep(dist_normal(seq(mean, mean * nfacet, by = mean), sd), each = nx)
+  }
 
 
   sim_dist_data <- sim_dist(nx, nfacet)

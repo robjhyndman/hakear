@@ -22,16 +22,15 @@
 #' # month of the year not working in this setup
 #' @export compute_pairwise_dist
 compute_pairwise_dist <- function(.data,
-                         gran_x = NULL,
-                         gran_facet = NULL,
-                         response = NULL,
-                         quantile_prob =
-                           seq(0.01, 0.99, 0.01),
-                         dist_ordered = TRUE,
-                         lambda = 0.67) {
-
+                                  gran_x = NULL,
+                                  gran_facet = NULL,
+                                  response = NULL,
+                                  quantile_prob =
+                                    seq(0.01, 0.99, 0.01),
+                                  dist_ordered = TRUE,
+                                  lambda = 0.67) {
   if (!((gran_x %in% names(.data) &
-         (gran_facet %in% names(.data))))) {
+    (gran_facet %in% names(.data))))) {
     .data <- .data %>%
       create_gran(gran_x) %>%
       create_gran(gran_facet)
@@ -48,11 +47,11 @@ compute_pairwise_dist <- function(.data,
         quantile_prob =
           quantile_prob
       ) %>%
-      distance_all_pairwise(dist_ordered = dist_ordered,
-                            lambda = lambda)
-
+      distance_all_pairwise(
+        dist_ordered = dist_ordered,
+        lambda = lambda
+      )
   )
 
   all_dist_data
-    }
-
+}

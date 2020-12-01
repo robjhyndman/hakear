@@ -8,9 +8,9 @@
 #' @author Sayani07
 #' @export distance_all_pairwise
 distance_all_pairwise <- function(sim_panel_quantiles,
-                           quantile_prob = seq(0.01, 0.99, 0.01),
-                           dist_ordered = TRUE,
-                           lambda = 0.67) {
+                                  quantile_prob = seq(0.01, 0.99, 0.01),
+                                  dist_ordered = TRUE,
+                                  lambda = 0.67) {
   # ncoly <- sim_panel_quantiles %>%
   #   distinct(id_facet) %>%
   #   nrow()
@@ -27,53 +27,65 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     sim_panel_quantiles$id_facet <- as.numeric(as.factor(sim_panel_quantiles$id_facet)) %>% factor()
   }
 
-  vm =  sim_panel_quantiles %>% mutate(row_number = row_number())
+  vm <- sim_panel_quantiles %>% mutate(row_number = row_number())
 
-  allcomb = combn(vm$row_number,2) %>%
+  allcomb <- combn(vm$row_number, 2) %>%
     t() %>%
     as_tibble()
 
-  all_data = allcomb %>%
-    left_join(vm, by = c("V1"="row_number")) %>%
-    left_join(vm, by = c("V2"="row_number")) %>%
+  all_data <- allcomb %>%
+    left_join(vm, by = c("V1" = "row_number")) %>%
+    left_join(vm, by = c("V2" = "row_number")) %>%
     mutate(dist_type = if_else(id_facet.x == id_facet.y,
-                               "within-facet",
-                               "between-facet"))
+      "within-facet",
+      "between-facet"
+    ))
 
-  if(dist_ordered)
-  {
-
+  if (dist_ordered) {
     all_data <- all_data %>%
-      mutate(remove_row =
-               if_else(id_facet.x == id_facet.y &
-                                    abs(as.numeric(id_x.y) - as.numeric(id_x.x))!=1,1,0)) %>%
-      filter(remove_row==0)
+      mutate(
+        remove_row =
+          if_else(id_facet.x == id_facet.y &
+            abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1, 1, 0)
+      ) %>%
+      filter(remove_row == 0)
   }
 
-  all_dist = lapply(seq_len(nrow(all_data)),
-         function(x){
-           distance = JS(prob = quantile_prob,
-                         unlist(all_data[x, ]$sim_data_quantile.x),
-                         unlist(all_data[x, ]$sim_data_quantile.y))
-         }) %>% unlist() %>% as_tibble()
+  all_dist <- lapply(
+    seq_len(nrow(all_data)),
+    function(x) {
+      distance <- JS(
+        prob = quantile_prob,
+        unlist(all_data[x, ]$sim_data_quantile.x),
+        unlist(all_data[x, ]$sim_data_quantile.y)
+      )
+    }
+  ) %>%
+    unlist() %>%
+    as_tibble()
 
 
   return_data <- all_data %>%
-    rename( "id_facet_1" = "id_facet.x",
-            "id_facet_2" = "id_facet.y",
-            "id_x_1" = "id_x.x",
-            "id_x_2" = "id_x.y") %>%
-    select(id_facet_1,
-           id_x_1,
-           id_facet_2,
-           id_x_2,
-           dist_type) %>% bind_cols(all_dist) %>%
+    rename(
+      "id_facet_1" = "id_facet.x",
+      "id_facet_2" = "id_facet.y",
+      "id_x_1" = "id_x.x",
+      "id_x_2" = "id_x.y"
+    ) %>%
+    select(
+      id_facet_1,
+      id_x_1,
+      id_facet_2,
+      id_x_2,
+      dist_type
+    ) %>%
+    bind_cols(all_dist) %>%
     mutate(trans_value = if_else(dist_type == "within-facet",
-                            lambda*value,
-                            (1/lambda)*value))
+      lambda * value,
+      (1 / lambda) * value
+    ))
 
   return_data
-
 }
 
 JS <- function(prob, q, p) {
@@ -83,7 +95,7 @@ JS <- function(prob, q, p) {
   ppmf <- pmf(x, prob, p)
   m <- 0.5 * (ppmf + qpmf)
   JS <- suppressWarnings(0.5 * (sum(stats::na.omit(ppmf * log(ppmf / m, base = 2))) +
-                                  sum(stats::na.omit(qpmf * log(qpmf / m, base = 2)))))
+    sum(stats::na.omit(qpmf * log(qpmf / m, base = 2)))))
   return(JS)
 }
 
@@ -94,4 +106,3 @@ pmf <- function(x, p, q) {
   qpmf <- c(0, diff(qcdf) / (x[2] - x[1]))
   return(qpmf / sum(qpmf))
 }
-

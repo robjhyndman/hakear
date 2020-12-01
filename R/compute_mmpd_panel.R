@@ -14,8 +14,10 @@ compute_mmpd_panel <- function(.data, quantile_prob = seq(
                                ), dist_ordered = TRUE,
                                nperm = 20) {
   dist_data_panel <- .data %>%
-    compute_quantiles(quantile_prob =
-                        quantile_prob) %>%
+    compute_quantiles(
+      quantile_prob =
+        quantile_prob
+    ) %>%
     distance_panel(dist_ordered = dist_ordered)
 
   #

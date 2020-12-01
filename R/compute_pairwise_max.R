@@ -22,22 +22,22 @@
 #' # month of the year not working in this setup
 #' @export compute_pairwise_max
 compute_pairwise_max <- function(.data,
-                         gran_x = NULL,
-                         gran_facet = NULL,
-                         response = NULL,
-                         quantile_prob =
-                           seq(0.01, 0.99, 0.01),
-                         dist_ordered = TRUE,
-                         lambda = 0.67) {
+                                 gran_x = NULL,
+                                 gran_facet = NULL,
+                                 response = NULL,
+                                 quantile_prob =
+                                   seq(0.01, 0.99, 0.01),
+                                 dist_ordered = TRUE,
+                                 lambda = 0.67) {
+  dist_data <- compute_pairwise_dist(
+    .data,
+    gran_x,
+    gran_facet,
+    {{ response }},
+    quantile_prob,
+    dist_ordered,
+    lambda
+  )
 
-  dist_data = compute_pairwise_dist(.data,
-                gran_x,
-                gran_facet,
-                {{response}},
-                quantile_prob,
-                dist_ordered,
-                lambda)
-
-max(dist_data$trans_value) %>% round(digits = 3)
-
+  max(dist_data$trans_value) %>% round(digits = 3)
 }
