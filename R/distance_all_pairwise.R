@@ -10,7 +10,12 @@
 distance_all_pairwise <- function(sim_panel_quantiles,
                                   quantile_prob = seq(0.01, 0.99, 0.01),
                                   dist_ordered = TRUE,
-                                  lambda = 0.67) {
+                                  lambda = 0.67,
+                                  dist_rel = function(x){1-x}
+                                  # relative distance
+                                  #additive inverse
+                                  #weights = function(x){1/x}#multiplicative inverse
+                                  ) {
   # ncoly <- sim_panel_quantiles %>%
   #   distinct(id_facet) %>%
   #   nrow()
@@ -82,7 +87,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     bind_cols(all_dist) %>%
     mutate(trans_value = if_else(dist_type == "within-facet",
       lambda * value,
-      (1 / lambda) * value
+      dist_rel(lambda) * value
     ))
 
   return_data
