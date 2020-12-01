@@ -11,13 +11,17 @@ sim_panel <- function(nx = 2, nfacet = 3,
                       ntimes = 5,
                       sim_dist =
                         sim_varf_dist1) {
+
   sim_varf_dist1 <- function(nx, nfacet) {
     rep(dist_normal(seq(mean, mean * nfacet, by = mean), sd), each = nx)
   }
 
-
+  if(typeof(sim_dist)=="list"){
+    sim_dist_data <- sim_dist
+  }
+  else{
   sim_dist_data <- sim_dist(nx, nfacet)
-
+}
   id_x <- rep(seq_len(nx), nfacet)
   id_facet <- rep(seq_len(nfacet), each = nx)
 
