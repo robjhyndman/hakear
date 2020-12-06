@@ -3,32 +3,35 @@
 #' @param sim_panel_quantiles quantile data
 #' @param dist_ordered if categories are ordered
 #' @param quantile_prob numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot
-#'
-#' @return
+#' @return within and between facet distances
 #' @author Sayani07
 #' @export distance_all_pairwise
 #' @examples
-library(tidyverse)
-library(gravitas)
-library(parallel)
-library(distributional)
-#'sim_panel_data  = sim_panel(nx = 3,
-#'                            nfacet = 4,
-#'                            ntimes = 500,
-#'                            sim_dist = stributional#'::dist_normal(5, 10)) %>% unnest(c(data))
-#'sim_panel_quantiles  =
-#'  compute_quantiles(sim_panel_data,
-#'                    quantile_prob = seq(0.01, 0.99, 0.01))
+#' library(tidyverse)
+#' library(gravitas)
+#' library(parallel)
+#' library(distributional)
+#' sim_panel_data  = sim_panel(nx = 3,
+#'                              nfacet = 4,
+#'                              ntimes = 500,
+#'                              sim_dist = distributional
+#'                              ::dist_normal(5, 10)) %>%
+#'                              unnest (c(data))
+#' sim_panel_quantiles  =
+#'   compute_quantiles(sim_panel_data,
+#'                     quantile_prob = seq(0.01, 0.99, 0.01))
+
 
 distance_all_pairwise <- function(sim_panel_quantiles,
                                   quantile_prob = seq(0.01, 0.99, 0.01),
                                   dist_ordered = TRUE,
                                   lambda = 0.67,
-                                  dist_rel = function(x){1-x}
+                                  #dist_rel = function(x){1-x}
                                   # relative distance
                                   #additive inverse
                                   #weights = function(x){1/x}#multiplicative inverse
-                                  ) {
+                                  )
+  {
   # ncoly <- sim_panel_quantiles %>%
   #   distinct(id_facet) %>%
   #   nrow()
@@ -56,18 +59,18 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     left_join(vm, by = c("V1" = "row_number")) %>%
     left_join(vm, by = c("V2" = "row_number")) %>%
     mutate(dist_type = if_else(id_facet.x == id_facet.y,
-      "within-facet",
-      if_else(id_x.x == id_x.y, "between-facet", "NA")
-    ))
+                               "within-facet",
+                               if_else(id_x.x == id_x.y, "between-facet", "uncategorised")
+    )) %>% filter(dist_type != "uncategorised")
 
-# remove unordered within-facet distances if categories are ordered
+  # remove un-ordered within-facet distances if categories are ordered
 
   if (dist_ordered) {
     all_data <- all_data %>%
       mutate(
         remove_row =
           if_else((dist_type=="within-facet" &
-            abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1)| dist_type == "NA", 1, 0)
+                     abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1), 1, 0)
       ) %>%
       filter(remove_row == 0)
   }
@@ -102,8 +105,8 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     ) %>%
     bind_cols(all_dist) %>%
     mutate(trans_value = if_else(dist_type == "within-facet",
-      lambda * value,
-      (1-lambda) * value
+                                 lambda * value,
+                                 (1-lambda) * value
     ))
 
   return_data
