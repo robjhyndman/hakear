@@ -33,7 +33,7 @@ compute_pairwise_max <- function(.data,
     .data,
     gran_x,
     gran_facet,
-    {{ response }},
+    {{response }},
     quantile_prob,
     dist_ordered,
     lambda
