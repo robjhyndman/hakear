@@ -17,7 +17,7 @@
 #' gran_x <- "week_month"
 #' gran_facet <- "week_fortnight"
 #' v <- compute_pairwise_max(sm, gran_x, gran_facet,
-#'   response = general_supply_kwh
+#'   response = general_supply_kwh, lambda = 0.8
 #' )
 #' # month of the year not working in this setup
 #' @export compute_pairwise_max
