@@ -7,6 +7,19 @@
 #' @return
 #' @author Sayani07
 #' @export distance_all_pairwise
+#' @examples
+library(tidyverse)
+library(gravitas)
+library(parallel)
+library(distributional)
+#'sim_panel_data  = sim_panel(nx = 3,
+#'                            nfacet = 4,
+#'                            ntimes = 500,
+#'                            sim_dist = stributional#'::dist_normal(5, 10)) %>% unnest(c(data))
+#'sim_panel_quantiles  =
+#'  compute_quantiles(sim_panel_data,
+#'                    quantile_prob = seq(0.01, 0.99, 0.01))
+
 distance_all_pairwise <- function(sim_panel_quantiles,
                                   quantile_prob = seq(0.01, 0.99, 0.01),
                                   dist_ordered = TRUE,
@@ -38,20 +51,23 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     t() %>%
     as_tibble()
 
+# define within-facet and between-facet distances
   all_data <- allcomb %>%
     left_join(vm, by = c("V1" = "row_number")) %>%
     left_join(vm, by = c("V2" = "row_number")) %>%
     mutate(dist_type = if_else(id_facet.x == id_facet.y,
       "within-facet",
-      "between-facet"
+      if_else(id_x.x == id_x.y, "between-facet", "NA")
     ))
+
+# remove unordered within-facet distances if categories are ordered
 
   if (dist_ordered) {
     all_data <- all_data %>%
       mutate(
         remove_row =
-          if_else(id_facet.x == id_facet.y &
-            abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1, 1, 0)
+          if_else((dist_type=="within-facet" &
+            abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1)| dist_type == "NA", 1, 0)
       ) %>%
       filter(remove_row == 0)
   }
@@ -87,7 +103,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     bind_cols(all_dist) %>%
     mutate(trans_value = if_else(dist_type == "within-facet",
       lambda * value,
-      dist_rel(lambda) * value
+      (1-lambda) * value
     ))
 
   return_data
