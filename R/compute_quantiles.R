@@ -17,7 +17,7 @@ compute_quantiles <- function(sim_panel_data, quantile_prob = seq(0.01, 0.99, 0.
     group_by(id_facet, id_x) %>%
     summarize(
       list_data = list(sim_data),
-      sim_data_quantile = quantile(unlist(list_data), quantile_prob), .groups = "drop"
+      sim_data_quantile = quantile(unlist(list_data), quantile_prob, na.rm = TRUE), .groups = "drop"
     ) %>%
     ungroup() %>%
     select(-list_data) %>%
