@@ -39,5 +39,5 @@ compute_pairwise_max <- function(.data,
     lambda
   )
 
-  max(dist_data$trans_value) %>% round(digits = 3)
+  max(dist_data$trans_value, na.rm = TRUE) %>% round(digits = 3)
 }
