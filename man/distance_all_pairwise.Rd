@@ -19,10 +19,33 @@ distance_all_pairwise(
 \item{dist_ordered}{if categories are ordered}
 }
 \value{
-
+within and between facet distances
 }
 \description{
 computing all within and between facet distances between quantile categories given quantile data
+}
+\examples{
+library(tidyverse)
+library(gravitas)
+library(parallel)
+library(ggplot2)
+library(distributional)
+sim_panel_data  = sim_panel(nx = 3,
+                             nfacet = 4,
+                             ntimes = 500,
+                             sim_dist = distributional
+                             ::dist_normal(5, 10)) \%>\%
+                             unnest (c(data))
+sim_panel_quantiles  =
+  compute_quantiles(sim_panel_data,
+                    quantile_prob = seq(0.01, 0.99, 0.01))
+distance_all_pairwise(sim_panel_quantiles, lambda = 0.5)
+# Change the value of lambda here to see how raw and transformed distances change
+dist_data = distance_all_pairwise(sim_panel_quantiles, lambda #' = 0.7)
+# Plot raw distances
+ggplot(dist_data, aes(x = 1:26, y = value, colour = dist_type#' )) + geom_line() + geom_point()
+# Plot transformed distances
+ggplot(dist_data, aes(x = 1:26, y = trans_value, colour = #' dist_type)) + geom_line() + geom_point()
 }
 \author{
 Sayani07
