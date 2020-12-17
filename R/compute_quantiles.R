@@ -9,7 +9,7 @@
 compute_quantiles <- function(sim_panel_data, quantile_prob = seq(0.01, 0.99, 0.01)) {
 
   #preprocess the data(quantile_transform)
-sim_panel_data <- sim_panel_data %>% mutate(sim_data = qqnorm(sim_data)$x)
+sim_panel_data <- sim_panel_data %>% mutate(sim_data = qqnorm(sim_data, plot.it = FALSE)$x)
 
   facet <- unique(sim_panel_data$id_facet)
   nfacet <- length(facet)
