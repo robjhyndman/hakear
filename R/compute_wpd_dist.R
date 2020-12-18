@@ -43,8 +43,8 @@ compute_wpd_dist <- function(.data,
       rename("id_facet" = !!gran_facet) %>%
       rename("id_x" = !!gran_x) %>%
       rename("sim_data" = {{ response }}) %>%
-      mutate(sim_data = forecast::BoxCox(sim_data, lambda = "auto")) %>%
-      mutate(sim_data = scale(sim_data)) %>%
+      #mutate(sim_data = forecast::BoxCox(sim_data, lambda = "auto")) %>%
+      #mutate(sim_data = scale(sim_data)) %>%
       compute_quantiles(
         quantile_prob =
           quantile_prob
