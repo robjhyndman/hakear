@@ -9,7 +9,9 @@
 compute_quantiles <- function(sim_panel_data, quantile_prob = seq(0.01, 0.99, 0.01)) {
 
   #preprocess the data(quantile_transform)
-sim_panel_data <- sim_panel_data %>% mutate(sim_data = qqnorm(sim_data, plot.it = FALSE)$x)
+sim_panel_data <- sim_panel_data %>%
+  ungroup() %>%
+  mutate(sim_data = qqnorm(sim_data, plot.it = FALSE)$x)
 
   facet <- unique(sim_panel_data$id_facet)
   nfacet <- length(facet)
@@ -26,6 +28,7 @@ sim_panel_data <- sim_panel_data %>% mutate(sim_data = qqnorm(sim_data, plot.it 
     ungroup() %>%
     select(-list_data) %>%
     nest(sim_data_quantile = sim_data_quantile)
+  sim_facet_data
   # put each x on the columns so that pairwise distance could be computed
   # pivot_wider(id_cols = c(1,2,4),
   #             names_from = id_x,
