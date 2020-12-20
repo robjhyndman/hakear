@@ -42,6 +42,8 @@ compute_pairwise_norm <- function(.data,
       create_gran(gran_facet)
   }
 
+  .data <- .data %>% ungroup()
+
   shuffle_data <- mclapply(
     seq_len(nperm),
     function(x) {

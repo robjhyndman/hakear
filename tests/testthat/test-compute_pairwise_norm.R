@@ -8,6 +8,7 @@ library(gravitas)
 library(parallel)
 library(ggplot2)
 library(distributional)
+set.seed(1779)
 sim_panel_data  = sim_panel(nx = 3,
                             nfacet = 4,
                             ntimes = 500,
@@ -25,3 +26,4 @@ compute_pairwise_norm(sim_panel_data,
                       gran_x = "id_x",
                       gran_facet = "id_facet",
                       response = sim_data)
+
