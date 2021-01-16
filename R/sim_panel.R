@@ -5,6 +5,16 @@
 #' @param sim_dist
 #' @return
 #' @author Sayani07
+#' @examples
+#' sim_panel_data <- sim_panel(nx = 2, nfacet = 3,
+#' ntimes = 5,
+#' sim_dist = sim_varx_normal(2, 3, 0, 1, 10)) %>% unnest(data)
+#'
+#' sim_panel_data %>%
+#' ggplot() +
+#' geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
+#' facet_wrap(~id_facet)
+#'
 #' @export
 
 sim_panel <- function(nx = 2, nfacet = 3,
@@ -20,7 +30,7 @@ sim_panel <- function(nx = 2, nfacet = 3,
     sim_dist_data <- sim_dist
   }
   else{
-  sim_dist_data <- sim_dist(nx, nfacet)
+  sim_dist_data <- sim_dist(nx, nfacet, ...)
 }
   id_x <- rep(seq_len(nx), nfacet)
   id_facet <- rep(seq_len(nfacet), each = nx)
