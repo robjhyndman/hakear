@@ -6,6 +6,12 @@
 #' @return
 #' @author Sayani07
 #' @examples
+#' library(tidyverse)
+#' library(distributional)
+#'sim_varx_normal = function(nx, nfacet, mean, sd, w)
+#' {
+#'   rep(dist_normal((mean + seq(0, nx-1, by  = 1)*w), sd), nfacet)
+#' }
 #' sim_panel_data <- sim_panel(nx = 2, nfacet = 3,
 #' ntimes = 5,
 #' sim_dist = sim_varx_normal(2, 3, 0, 1, 10)) %>% unnest(data)
