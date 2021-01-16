@@ -1,12 +1,51 @@
-##' @title compute quantiles of data across categories
-##'
-##' @param sim_panel_data
-##' @param quantile_prob
-##'
-##' @return
-##' @author Sayani07
-##' @export
-compute_quantiles <- function(sim_panel_data, quantile_prob = seq(0.01, 0.99, 0.01)) {
+#' @title compute quantiles of data across categories
+#'
+#' @param sim_panel_data
+#' @param quantile_prob
+#'
+#' @return
+#' @author Sayani07
+#' @examples
+#' library(ggplot2)
+#' library(tidyverse)
+#' library(distributional)
+#' sim_panel_data  = sim_panel(nx = 3,
+#' nfacet = 2,
+#' ntimes = 100,
+#' sim_dist = distributional
+#' ::dist_normal(5, 10)) %>%
+#'   unnest (c(data))
+#' sim_panel_data %>% ggplot() +
+#' geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
+#' facet_wrap(~id_facet)
+#' compute_quantiles(sim_panel_data) %>%
+#' unnest(sim_data_quantile) %>%
+#'  ggplot() +
+#' geom_boxplot(aes(x = as.factor(id_x), y = unlist(sim_data_quantile))) +
+#' facet_wrap(~id_facet)
+#'
+#' sim_varx_normal = function(nx, nfacet, mean, sd, w)
+#' {
+#'   rep(dist_normal((mean + seq(0, nx-1, by  = 1)*w), sd), nfacet)
+#' }
+#' data <- sim_panel(nx = 3,
+#' nfacet = 2,
+#' ntimes = 100,
+#' sim_dist = sim_varx_normal(nx = 3, nfacet = 2, mean = 0, sd = 1, w = 100))
+#' sim_panel_data %>% ggplot() +
+#' geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
+#' facet_wrap(~id_facet)
+#' compute_quantiles(sim_panel_data) %>%
+#' unnest(sim_data_quantile) %>%
+#'  ggplot() +
+#' geom_boxplot(aes(x = as.factor(id_x), y = unlist(sim_data_quantile))) +
+#' facet_wrap(~id_facet)
+#'
+#'
+#' @export
+
+compute_quantiles <- function(sim_panel_data,
+                              quantile_prob = seq(0.01, 0.99, 0.01)) {
 
   #preprocess the data(quantile_transform)
 sim_panel_data <- sim_panel_data %>%
@@ -37,3 +76,4 @@ sim_panel_data <- sim_panel_data %>%
   #             values_from = sim_data_quantile,
   #             values_fn = list(sim_data_quantile = list)) %>%
 }
+
