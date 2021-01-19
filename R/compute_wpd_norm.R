@@ -22,18 +22,18 @@
 #' # month of the year not working in this setup
 #' @export compute_wpd_norm
 compute_wpd_norm <- function(.data,
-                                 gran_x = NULL,
-                                 gran_facet = NULL,
-                                 response = NULL,
-                                 quantile_prob =
-                                   seq(0.01, 0.99, 0.01),
-                                 dist_ordered = TRUE,
-                                 lambda = 0.67) {
+                             gran_x = NULL,
+                             gran_facet = NULL,
+                             response = NULL,
+                             quantile_prob =
+                               seq(0.01, 0.99, 0.01),
+                             dist_ordered = TRUE,
+                             lambda = 0.67) {
   dist_data <- compute_wpd_dist(
     .data,
     gran_x,
     gran_facet,
-    {{response }},
+    {{ response }},
     quantile_prob,
     dist_ordered,
     lambda
@@ -42,7 +42,9 @@ compute_wpd_norm <- function(.data,
   len_dist <- nrow(dist_data)
   # normalising by number of distances
   (max(dist_data$trans_value,
-      na.rm = TRUE)/log(len_dist,
-                        base = exp(1))) %>%
+    na.rm = TRUE
+  ) / log(len_dist,
+    base = exp(1)
+  )) %>%
     round(digits = 3)
 }

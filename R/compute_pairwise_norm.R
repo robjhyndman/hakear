@@ -22,13 +22,13 @@
 #' # month of the year not working in this setup
 #' @export compute_pairwise_norm
 compute_pairwise_norm <- function(.data,
-                              gran_x = NULL,
-                              gran_facet = NULL,
-                              response = NULL,
-                              quantile_prob =
-                                seq(0.01, 0.99, 0.01),
-                              dist_ordered = TRUE,
-                              nperm = 100) {
+                                  gran_x = NULL,
+                                  gran_facet = NULL,
+                                  response = NULL,
+                                  quantile_prob =
+                                    seq(0.01, 0.99, 0.01),
+                                  dist_ordered = TRUE,
+                                  nperm = 100) {
   mmpd_raw <- compute_pairwise_max(
     .data, gran_x, gran_facet,
     {{ response }}, quantile_prob,
@@ -36,7 +36,7 @@ compute_pairwise_norm <- function(.data,
   )
 
   if (!((gran_x %in% names(.data) &
-         (gran_facet %in% names(.data))))) {
+    (gran_facet %in% names(.data))))) {
     .data <- .data %>%
       create_gran(gran_x) %>%
       create_gran(gran_facet)

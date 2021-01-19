@@ -64,7 +64,9 @@ sim_panel_data <- sim_panel_data %>%
     group_by(id_facet, id_x) %>%
     summarize(
       list_data = list(sim_data),
-      sim_data_quantile = quantile(unlist(list_data), quantile_prob, na.rm = TRUE), .groups = "drop"
+      sim_data_quantile = quantile(unlist(list_data),
+                                   quantile_prob, na.rm = TRUE),
+      .groups = "drop"
     ) %>%
     ungroup() %>%
     select(-list_data) %>%

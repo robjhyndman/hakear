@@ -21,15 +21,13 @@
 #' sim_panel_quantiles  =
 #'   compute_quantiles(sim_panel_data,
 #'                     quantile_prob = seq(0.01, 0.99, 0.01))
+#'
 #' distance_all_pairwise(sim_panel_quantiles, lambda = 0.5)
-
-#' # Change the value of lambda here to see how raw and transformed distances change
-#' dist_data = distance_all_pairwise(sim_panel_quantiles, lambda #' = 0.7)
+#' dist_data = distance_all_pairwise(sim_panel_quantiles, lambda = 0.7)
 #' # Plot raw distances
-#' ggplot(dist_data, aes(x = 1:26, y = value, colour = dist_type#' )) + geom_line() + geom_point()
+#' ggplot(dist_data, aes(x = 1:26, y = value, colour = dist_type)) + geom_line() + geom_point()
 #' # Plot transformed distances
 #' ggplot(dist_data, aes(x = 1:26, y = trans_value, colour = #' dist_type)) + geom_line() + geom_point()
-
 
 
 distance_all_pairwise <- function(sim_panel_quantiles,
@@ -62,6 +60,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
 
   vm <- sim_panel_quantiles %>% mutate(row_number = row_number())
 
+  # differences of all combination of row taking two a time need to be computed
   allcomb <- combn(vm$row_number, 2) %>%
     t() %>%
     as_tibble()
