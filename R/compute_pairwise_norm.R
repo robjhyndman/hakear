@@ -28,7 +28,8 @@ compute_pairwise_norm <- function(.data,
                                   quantile_prob =
                                     seq(0.01, 0.99, 0.01),
                                   dist_ordered = TRUE,
-                                  nperm = 100) {
+                                  nperm = 100,
+                                  seed = 9000) {
   mmpd_raw <- compute_pairwise_max(
     .data, gran_x, gran_facet,
     {{ response }}, quantile_prob,
@@ -47,7 +48,7 @@ compute_pairwise_norm <- function(.data,
   shuffle_data <- mclapply(
     seq_len(nperm),
     function(x) {
-      set.seed(2020 + x)
+      set.seed(seed + x)
       rows <- sample(nrow(.data))
       new_response <- select(as_tibble(.data), {{ response }})[rows, ] %>% pull({{ response }})
 
