@@ -11,7 +11,8 @@ compute_pairwise_norm(
   response = NULL,
   quantile_prob = seq(0.01, 0.99, 0.01),
   dist_ordered = TRUE,
-  nperm = 100
+  nperm = 100,
+  seed = 9000
 )
 }
 \arguments{

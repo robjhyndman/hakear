@@ -4,13 +4,84 @@
 \alias{sim_panel}
 \title{sim panel}
 \usage{
-sim_panel(nx = 2, nfacet = 3, ntimes = 5, sim_dist = sim_varf_dist1)
+sim_panel(nx = 2, nfacet = 3, ntimes = 500, sim_dist = sim_varall)
 }
 \value{
 
 }
 \description{
 sim panel
+}
+\examples{
+library(tidyverse)
+library(distributional)
+sim_varx_normal <- function(nx, nfacet, mean, sd, w) {
+  rep(dist_normal((mean + seq(0, nx - 1, by = 1) * w), sd), nfacet)
+}
+
+sim_panel_data <- sim_panel(
+  nx = 2, nfacet = 3,
+  ntimes = 5,
+  sim_dist = sim_varx_normal(2, 3, 0, 1, 10)
+) \%>\% unnest(data)
+
+sim_panel_data \%>\%
+  ggplot() +
+  geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
+  facet_wrap(~id_facet)
+compute_quantiles(sim_panel_data) \%>\%
+  unnest(c(sim_data_quantile)) \%>\%
+  ggplot() +
+  geom_boxplot(aes(x = as.factor(id_x), y = sim_data_quantile)) +
+  facet_wrap(~id_facet)
+
+
+sim_varf_normal <- function(nx, nfacet, mean, sd, w) {
+  rep(dist_normal((mean + seq(0, nfacet - 1, by = 1) * w), sd), each = nx)
+}
+sim_panel_data <- sim_panel(
+  nx = 2, nfacet = 3,
+  ntimes = 5,
+  sim_dist = sim_varf_normal(2, 3, 0, 1, 10)
+) \%>\% unnest(data)
+
+sim_panel_data \%>\%
+  ggplot() +
+  geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
+  facet_wrap(~id_facet)
+compute_quantiles(sim_panel_data) \%>\%
+  unnest(c(sim_data_quantile)) \%>\%
+  ggplot() +
+  geom_boxplot(aes(x = as.factor(id_x), y = sim_data_quantile)) +
+  facet_wrap(~id_facet)
+
+
+
+sim_varall_normal <- function(nx, nfacet, mean, sd, w) {
+  dist_normal((mean + seq(0,
+    (nx *
+      nfacet - 1),
+    by = 1
+  ) * w), sd)
+}
+sim_panel_data <- sim_panel(
+  nx = 2, nfacet = 3,
+  ntimes = 5,
+  sim_dist = sim_varall_normal(2, 3, 0, 1, 10)
+) \%>\% unnest(data)
+
+sim_panel_data \%>\%
+  ggplot() +
+  geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
+  facet_wrap(~id_facet)
+compute_quantiles(sim_panel_data) \%>\%
+  unnest(c(sim_data_quantile)) \%>\%
+  ggplot() +
+  geom_boxplot(aes(x = as.factor(id_x), y = sim_data_quantile)) +
+  facet_wrap(~id_facet)
+compute_pairwise_max(sim_panel_data, "id_x", "id_facet",
+  response = sim_data
+)
 }
 \author{
 Sayani07
