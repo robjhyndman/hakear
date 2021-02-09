@@ -20,7 +20,7 @@
 #'   response = general_supply_kwh, lambda = 0.90
 #' )
 #' # month of the year not working in this setup
-#' @export compute_pairwise_max
+#' @export compute_pairwise_norm_scalar
 compute_pairwise_norm_scalar <- function(.data,
                                  gran_x = NULL,
                                  gran_facet = NULL,
