@@ -6,6 +6,8 @@
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
+#' @param nperm number of permutations for normalization
+#' @param seed seed considered
 #' @return
 #'
 #' @examples
@@ -43,7 +45,7 @@ compute_pairwise_norm <- function(.data,
       gravitas::create_gran(gran_facet)
   }
 
-  .data <- .data %>% ungroup()
+  .data <- .data %>% dplyr::ungroup()
 
   shuffle_data <- parallel::mclapply(
     seq_len(nperm),
@@ -67,7 +69,7 @@ compute_pairwise_norm <- function(.data,
         {{ response }},
         quantile_prob,
         dist_ordered
-      ) %>% set_names("mmpd_raw")
+      ) %>% rlang::set_names("mmpd_raw")
       shuffle_raw
     }
   ) %>% dplyr::bind_rows()

@@ -3,6 +3,7 @@
 #' @param sim_panel_quantiles quantile data
 #' @param dist_ordered if categories are ordered
 #' @param quantile_prob numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot
+#' @param lambda value of tuning parameter for computing weighted pairwise distances
 #' @return within and between facet distances
 #' @author Sayani07
 #' @export distance_all_pairwise
@@ -61,7 +62,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
   if (any((class(sim_panel_quantiles$id_x) %in% c("character", "integer")))) {
     sim_panel_quantiles$id_x <- as.numeric(as.factor(sim_panel_quantiles$id_x)) %>% factor()
   }
-    if (any((class(sim_panel_quantiles$id_facet) %in% c("character", "integer")))) {
+  if (any((class(sim_panel_quantiles$id_facet) %in% c("character", "integer")))) {
     sim_panel_quantiles$id_facet <- as.numeric(as.factor(sim_panel_quantiles$id_facet)) %>% factor()
   }
 

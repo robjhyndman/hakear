@@ -50,7 +50,7 @@ compute_quantiles <- function(sim_panel_data,
 
   # preprocess the data(quantile_transform)
   sim_panel_data <- sim_panel_data %>%
-    ungroup()
+    dplyr::ungroup()
 
   sim_panel_data <- sim_panel_data %>%
     dplyr::mutate(sim_data = stats::qqnorm(sim_data, plot.it = FALSE)$x)
@@ -71,7 +71,7 @@ compute_quantiles <- function(sim_panel_data,
       ),
       .groups = "drop"
     ) %>%
-    ungroup() %>%
+    dplyr::ungroup() %>%
     dplyr::select(-list_data) %>%
     nest(sim_data_quantile = sim_data_quantile)
   sim_facet_data

@@ -4,26 +4,30 @@
 #'
 #' @param .data a tsibble or data with already computed categories
 #' @param harmony_tbl A tibble containing one or more hamronies with facet_variable, x_variable, facet_levels and x_levels
+#' @param dist_ordered if categories are ordered
+#' @param quantile_prob numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot
+#' @param lambda value of tuning parameter for computing weighted
+#' @nperm number of permutations for normalization
 #' @param response the response variable
+#' @param use_perm should permutation approach for normalization be used
+#'
 #' @examples
 #' library(gravitas)
 #' library(parallel)
 #' library(dplyr)
 #' library(tidyr)
 #' sm <- smart_meter10 %>%
-#' filter(customer_id %in% c("10017936"))
-#'harmonies <- sm %>%
-#' harmony(
-#'   ugran = "month",
-#'   filter_in = "wknd_wday",
-#'   filter_out = c("hhour", "fortnight")
-#' )
+#'   filter(customer_id %in% c("10017936"))
+#' harmonies <- sm %>%
+#'   harmony(
+#'     ugran = "month",
+#'     filter_in = "wknd_wday",
+#'     filter_out = c("hhour", "fortnight")
+#'   )
 #' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies[13,],
+#'   harmony_tbl = harmonies[13, ],
 #'   response = general_supply_kwh
 #' )
-
-
 wpd <- function(.data,
                 harmony_tbl = NULL,
                 response = NULL,
@@ -36,62 +40,68 @@ wpd <- function(.data,
 
   # one row or all harmonies of the harmony table
 
-  if(nrow(harmony_tbl)!=1)
-  {
+  if (nrow(harmony_tbl) != 1) {
     harmony_data <- create_harmony_tbl_data(.data,
-                                            harmony_tbl =  harmony_tbl,
-                                            response = {{response}})
-}
-  else{
+      harmony_tbl = harmony_tbl,
+      response = {{ response }}
+    )
+  }
+  else {
     harmony_data <- create_harmony_data(.data,
-                                        harmony_tbl_row = harmony_tbl,
-                                        {{response}}) %>% list()
+      harmony_tbl_row = harmony_tbl,
+      {{ response }}
+    ) %>% list()
   }
 
-  harmony_tbl_lev <-   harmony_tbl %>%
-    dplyr::mutate(lev = if_else(facet_levels <= 5 & x_levels <= 5,"low", "high"))
+  harmony_tbl_lev <- harmony_tbl %>%
+    dplyr::mutate(lev = if_else(facet_levels <= 5 & x_levels <= 5, "low", "high"))
 
 
-  if(!use_perm){
-    lapply(harmony_data,
-           function(x)
-             compute_pairwise_norm_scalar(
-               x,
-               gran_x = "id_x",
-               gran_facet = "id_facet",
-               response = sim_data,
-               quantile_prob,
-               dist_ordered,
-               lambda)
+  if (!use_perm) {
+    lapply(
+      harmony_data,
+      function(x) {
+        compute_pairwise_norm_scalar(
+          x,
+          gran_x = "id_x",
+          gran_facet = "id_facet",
+          response = sim_data,
+          quantile_prob,
+          dist_ordered,
+          lambda
+        )
+      }
     )
   }
 
-  else{
-    parallel::mclapply(seq_len(nrow(harmony_tbl_lev)),
-             function(x){
-               if(harmony_tbl_lev[x, ]$lev == "high"){
-                 compute_pairwise_norm_scalar(
-                   h %>% extract2(x),
-                   gran_x = "id_x",
-                   gran_facet = "id_facet",
-                   response = sim_data,
-                   quantile_prob,
-                   dist_ordered,
-                   lambda)
-               }
-               else {
-                 value = compute_pairwise_norm(
-                   h %>% extract2(x),
-                   gran_x = "id_x",
-                   gran_facet = "id_facet",
-                   response = sim_data,
-                   quantile_prob,
-                   dist_ordered,
-                   lambda,
-                   nperm = 20)
-               }
-             })
-
+  else {
+    parallel::mclapply(
+      seq_len(nrow(harmony_tbl_lev)),
+      function(x) {
+        if (harmony_tbl_lev[x, ]$lev == "high") {
+          compute_pairwise_norm_scalar(
+            h %>% extract2(x),
+            gran_x = "id_x",
+            gran_facet = "id_facet",
+            response = sim_data,
+            quantile_prob,
+            dist_ordered,
+            lambda
+          )
+        }
+        else {
+          value <- compute_pairwise_norm(
+            h %>% extract2(x),
+            gran_x = "id_x",
+            gran_facet = "id_facet",
+            response = sim_data,
+            quantile_prob,
+            dist_ordered,
+            lambda,
+            nperm = 20
+          )
+        }
+      }
+    )
   }
 }
-

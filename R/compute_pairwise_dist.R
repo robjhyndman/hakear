@@ -33,7 +33,7 @@ compute_pairwise_dist <- function(.data,
     (gran_facet %in% names(.data))))) {
     .data <- .data %>%
       gravitas::create_gran(gran_x) %>%
-      cgravitas::reate_gran(gran_facet)
+      gravitas::create_gran(gran_facet)
   }
 
   all_dist_data <- suppressMessages(

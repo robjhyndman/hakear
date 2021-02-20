@@ -26,6 +26,8 @@ compute_pairwise_norm_scalar(
 \item{quantile_prob}{probabilities}
 
 \item{dist_ordered}{if categories are ordered}
+
+\item{lambda}{value of tuning parameter for computing weighted pairwise distances}
 }
 \value{
 the weighted pairwise distance normalised through modeling raw distances as a function of total number of categories

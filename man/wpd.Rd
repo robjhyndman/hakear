@@ -23,6 +23,14 @@ wpd(
 \item{harmony_tbl}{A tibble containing one or more hamronies with facet_variable, x_variable, facet_levels and x_levels}
 
 \item{response}{the response variable}
+
+\item{quantile_prob}{numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot}
+
+\item{dist_ordered}{if categories are ordered}
+
+\item{lambda}{value of tuning parameter for computing weighted}
+
+\item{use_perm}{should permutation approach for normalization be used}
 }
 \description{
 computes wpd for one harmony or harmony table
@@ -35,15 +43,15 @@ library(parallel)
 library(dplyr)
 library(tidyr)
 sm <- smart_meter10 \%>\%
-filter(customer_id \%in\% c("10017936"))
+  filter(customer_id \%in\% c("10017936"))
 harmonies <- sm \%>\%
-harmony(
-  ugran = "month",
-  filter_in = "wknd_wday",
-  filter_out = c("hhour", "fortnight")
-)
+  harmony(
+    ugran = "month",
+    filter_in = "wknd_wday",
+    filter_out = c("hhour", "fortnight")
+  )
 all_harmony <- wpd(sm,
-  harmony_tbl = harmonies[13,],
+  harmony_tbl = harmonies[13, ],
   response = general_supply_kwh
 )
 }

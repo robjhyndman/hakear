@@ -27,6 +27,10 @@ compute_pairwise_norm(
 \item{quantile_prob}{probabilities}
 
 \item{dist_ordered}{if categories are ordered}
+
+\item{nperm}{number of permutations for normalization}
+
+\item{seed}{seed considered}
 }
 \value{
 

@@ -6,6 +6,8 @@
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
+#' @param nperm number of permutations required for normalisation
+#' @param lambda value of the tuning parameter for computing weighted pairwise distances
 #' @return the weighted pairwise distance normalised using permutation
 #'
 #' @examples
@@ -65,7 +67,7 @@ compute_norm_pairwise_max <- function(.data,
         {{ response }},
         quantile_prob,
         dist_ordered, lambda
-      ) %>% set_names("mmpd_raw")
+      ) %>% rlang::set_names("mmpd_raw")
       shuffle_raw
     }
   ) %>% dplyr::bind_rows()

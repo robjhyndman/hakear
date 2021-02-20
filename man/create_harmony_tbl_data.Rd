@@ -21,13 +21,13 @@ Create data for all harmony pairs in a harmony table
 }
 \examples{
 sm <- smart_meter10 \%>\%
-dplyr::filter(customer_id \%in\% c("10017936"))
+  dplyr::filter(customer_id \%in\% c("10017936"))
 harmonies <- sm \%>\%
-harmony(
-  ugran = "month",
-  filter_in = "wknd_wday",
-  filter_out = c("hhour", "fortnight")
-)
+  harmony(
+    ugran = "month",
+    filter_in = "wknd_wday",
+    filter_out = c("hhour", "fortnight")
+  )
 all_harmony <- create_harmony_tbl_data(sm,
   harmony_tbl = harmonies,
   response = general_supply_kwh

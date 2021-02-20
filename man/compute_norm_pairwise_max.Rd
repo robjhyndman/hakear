@@ -27,6 +27,10 @@ compute_norm_pairwise_max(
 \item{quantile_prob}{probabilities}
 
 \item{dist_ordered}{if categories are ordered}
+
+\item{nperm}{number of permutations required for normalisation}
+
+\item{lambda}{value of the tuning parameter for computing weighted pairwise distances}
 }
 \value{
 the weighted pairwise distance normalised using permutation

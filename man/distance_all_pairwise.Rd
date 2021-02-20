@@ -17,6 +17,8 @@ distance_all_pairwise(
 \item{quantile_prob}{numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot}
 
 \item{dist_ordered}{if categories are ordered}
+
+\item{lambda}{value of tuning parameter for computing weighted pairwise distances}
 }
 \value{
 within and between facet distances
