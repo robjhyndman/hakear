@@ -19,7 +19,7 @@
 #'   filter_out = c("hhour", "fortnight")
 #' )
 #' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies,
+#'   harmony_tbl = harmonies[13,],
 #'   response = general_supply_kwh
 #' )
 
@@ -45,7 +45,7 @@ wpd <- function(.data,
   else{
     harmony_data <- create_harmony_data(.data,
                                         harmony_tbl_row = harmony_tbl,
-                                        {{response}})
+                                        {{response}}) %>% list()
   }
 
   harmony_tbl_lev <-   harmony_tbl %>%
