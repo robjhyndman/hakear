@@ -7,7 +7,7 @@
 #' @param dist_ordered if categories are ordered
 #' @param quantile_prob numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot
 #' @param lambda value of tuning parameter for computing weighted
-#' @nperm number of permutations for normalization
+#' @param nperm number of permutations for normalization
 #' @param response the response variable
 #' @param use_perm should permutation approach for normalization be used
 #'
@@ -25,9 +25,10 @@
 #'     filter_out = c("hhour", "fortnight")
 #'   )
 #' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies[13, ],
+#'   harmony_tbl = harmonies,
 #'   response = general_supply_kwh
 #' )
+#' @export
 wpd <- function(.data,
                 harmony_tbl = NULL,
                 response = NULL,
@@ -80,7 +81,7 @@ wpd <- function(.data,
       function(x) {
         if (harmony_tbl_lev[x, ]$lev == "high") {
           compute_pairwise_norm_scalar(
-            h %>% extract2(x),
+            harmony_data %>% magrittr::extract2(x),
             gran_x = "id_x",
             gran_facet = "id_facet",
             response = sim_data,
@@ -90,8 +91,8 @@ wpd <- function(.data,
           )
         }
         else {
-          value <- compute_pairwise_norm(
-            h %>% extract2(x),
+          compute_pairwise_norm(
+            harmony_data %>% magrittr::extract2(x),
             gran_x = "id_x",
             gran_facet = "id_facet",
             response = sim_data,
@@ -104,4 +105,10 @@ wpd <- function(.data,
       }
     )
   }
+
+  # wpd <- unlist(value) %>%
+  #   tibble::as_tibble()
+  #
+  # harmony_tbl %>%
+  #   dplyr::mutate(wpd = wpd)
 }

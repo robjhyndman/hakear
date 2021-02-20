@@ -4,7 +4,7 @@
 #' @param dist_ordered if categories are ordered
 #' @param quantile_prob numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot
 #' @param lambda value of tuning parameter for computing weighted
-#' @nperm number of permutations for normalization
+#' @param nperm number of permutations for normalization
 #' @param response the response variable
 #' @param use_perm should permutation approach for normalization be used
 #'
@@ -21,28 +21,70 @@
 #'     filter_in = "wknd_wday",
 #'     filter_out = c("hhour", "fortnight")
 #'   )
-#' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies[13, ],
+#' all_harmony <- select_harmonies(sm,
+#'   harmony_tbl = harmonies,
 #'   response = general_supply_kwh
 #' )
+#'@export
 select_harmonies <- function(.data,
-                harmony_tbl = NULL,
-                response = NULL,
-                quantile_prob = seq(0.01, 0.99, 0.01),
-                dist_ordered = TRUE,
-                lambda = 0.67,
-                nperm = 20,
-                use_perm = TRUE) {
+                             harmony_tbl = NULL,
+                             response = NULL,
+                             quantile_prob = seq(0.01, 0.99, 0.01),
+                             dist_ordered = TRUE,
+                             lambda = 0.67,
+                             nperm = 20,
+                             use_perm = FALSE,
+                             nsamp = 2) {
 
 
-  wpd(.data,
-           harmony_tbl,
-           response,
-           quantile_prob = seq(0.01, 0.99, 0.01),
-           dist_ordered,
-           lambda,
-           nperm,
-           use_perm)
+  wpd_obs <- wpd(.data,
+                 harmony_tbl,
+                 {{response}},
+                 quantile_prob = seq(0.01, 0.99, 0.01),
+                 dist_ordered,
+                 lambda,
+                 nperm,
+                 use_perm) %>%
+    unlist() %>%
+    tibble::as_tibble()
+
+
+
+    wpd_sample <- parallel::mclapply((1:nsamp), function(x){
+
+      response_sample <- .data %>%
+        tibble::as_tibble() %>%
+        dplyr::ungroup() %>%
+        dplyr::select({{response}}) %>%
+        dplyr::sample_frac(size = 1)
+
+
+      data_sample <- .data %>%
+        dplyr::select(-{{response}}) %>%
+        bind_cols(response = response_sample)
+
+
+wpd(data_sample,
+             harmony_tbl,
+             {{response}},
+             quantile_prob = seq(0.01, 0.99, 0.01),
+             dist_ordered,
+             lambda,
+             nperm,
+             use_perm)
+})
+
+    threshold <- stats::quantile(unlist(wpd_sample), probs = 0.9)
+
+
+    harmony_tbl %>%
+      bind_cols(wpd_obs) %>%
+      dplyr::mutate(select_harmony = wpd_obs > threshold) %>%
+      dplyr::filter(select_harmony==TRUE) %>%
+      dplyr::select(-select_harmony) %>%
+      dplyr::rename(wpd = value) %>%
+      dplyr::arrange(-wpd)
+    #                            gt_maxpd = max_pd > right_quantile_maxpd)
 
 
 }
