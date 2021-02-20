@@ -1,8 +1,8 @@
 #' @title sim panel
-#' @param nx
-#' @param nfacet
-#' @param ntimes
-#' @param sim_dist
+#' @param nx number of x categories
+#' @param nfacet number of facet categories
+#' @param ntimes number of observations to be simulated for each categories
+#' @param sim_dist type of distribution to be simulated
 #' @return
 #' @author Sayani07
 #' @examples
@@ -75,7 +75,6 @@
 #' compute_pairwise_max(sim_panel_data, "id_x", "id_facet",
 #'   response = sim_data
 #' )
-#' @export
 
 sim_panel <- function(nx = 2, nfacet = 3,
                       ntimes = 500,

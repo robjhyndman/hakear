@@ -7,10 +7,12 @@
 compute_quantiles(sim_panel_data, quantile_prob = seq(0.01, 0.99, 0.01))
 }
 \arguments{
-\item{quantile_prob}{}
+\item{sim_panel_data}{data with categories and response variable}
+
+\item{quantile_prob}{quantiles of reponse variable needed}
 }
 \value{
-
+data with quantiles of response variable corresponding to categories
 }
 \description{
 compute quantiles of data across categories

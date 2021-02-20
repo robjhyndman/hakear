@@ -1,9 +1,9 @@
 #' @title compute quantiles of data across categories
 #'
-#' @param sim_panel_data
-#' @param quantile_prob
+#' @param sim_panel_data data with categories and response variable
+#' @param quantile_prob quantiles of reponse variable needed
 #'
-#' @return
+#' @return data with quantiles of response variable corresponding to categories
 #' @author Sayani07
 #' @examples
 #' library(ggplot2)

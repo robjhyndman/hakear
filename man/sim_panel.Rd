@@ -6,6 +6,15 @@
 \usage{
 sim_panel(nx = 2, nfacet = 3, ntimes = 500, sim_dist = sim_varall)
 }
+\arguments{
+\item{nx}{number of x categories}
+
+\item{nfacet}{number of facet categories}
+
+\item{ntimes}{number of observations to be simulated for each categories}
+
+\item{sim_dist}{type of distribution to be simulated}
+}
 \value{
 
 }
