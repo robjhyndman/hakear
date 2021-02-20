@@ -53,7 +53,7 @@ compute_quantiles <- function(sim_panel_data,
     ungroup()
 
   sim_panel_data <- sim_panel_data %>%
-    mutate(sim_data = qqnorm(sim_data, plot.it = FALSE)$x)
+    dplyr::mutate(sim_data = stats::qqnorm(sim_data, plot.it = FALSE)$x)
 
   facet <- unique(sim_panel_data$id_facet)
   nfacet <- length(facet)
@@ -62,8 +62,8 @@ compute_quantiles <- function(sim_panel_data,
 
   sim_facet_data <- sim_panel_data %>%
     # for each group find quantiles
-    group_by(id_facet, id_x) %>%
-    summarize(
+    dplyr::group_by(id_facet, id_x) %>%
+    dplyr::summarize(
       list_data = list(sim_data),
       sim_data_quantile = quantile(unlist(list_data),
         quantile_prob,
@@ -72,7 +72,7 @@ compute_quantiles <- function(sim_panel_data,
       .groups = "drop"
     ) %>%
     ungroup() %>%
-    select(-list_data) %>%
+    dplyr::select(-list_data) %>%
     nest(sim_data_quantile = sim_data_quantile)
   sim_facet_data
   # put each x on the columns so that pairwise distance could be computed

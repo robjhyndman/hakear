@@ -6,14 +6,14 @@
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
-#' @return
+#' @return the weighted pairwise distance normalised through modeling raw distances as a function of total number of categories
 #'
 #' @examples
 #' library(tidyverse)
 #' library(gravitas)
 #' library(parallel)
 #' sm <- smart_meter10 %>%
-#'   filter(customer_id %in% c("10017936"))
+#'   dplyr::filter(customer_id %in% c("10017936"))
 #' gran_x <- "week_month"
 #' gran_facet <- "week_fortnight"
 #' v <- compute_pairwise_norm_scalar(sm, gran_x, gran_facet,

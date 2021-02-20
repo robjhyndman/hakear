@@ -29,7 +29,7 @@ compute_norm_pairwise_max(
 \item{dist_ordered}{if categories are ordered}
 }
 \value{
-
+the weighted pairwise distance normalised using permutation
 }
 \description{
 Title Compute normalised maximum pairwise distances

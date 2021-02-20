@@ -28,7 +28,7 @@ compute_pairwise_max(
 \item{dist_ordered}{if categories are ordered}
 }
 \value{
-
+the raw weighted pairwise distance
 }
 \description{
 Title Compute raw pairwise distances

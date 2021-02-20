@@ -6,7 +6,7 @@
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
-#' @return
+#' @return the raw weighted pairwise  within-facet and between-facet distances
 #'
 #' @examples
 #' library(tidyverse)
@@ -32,17 +32,17 @@ compute_pairwise_dist <- function(.data,
   if (!((gran_x %in% names(.data) &
     (gran_facet %in% names(.data))))) {
     .data <- .data %>%
-      create_gran(gran_x) %>%
-      create_gran(gran_facet)
+      gravitas::create_gran(gran_x) %>%
+      cgravitas::reate_gran(gran_facet)
   }
 
   all_dist_data <- suppressMessages(
     .data %>%
-      as_tibble() %>%
-      select(!!gran_x, !!gran_facet, {{ response }}) %>%
-      rename("id_facet" = !!gran_facet) %>%
-      rename("id_x" = !!gran_x) %>%
-      rename("sim_data" = {{ response }}) %>%
+      tibble::as_tibble() %>%
+      dplyr::select(!!gran_x, !!gran_facet, {{ response }}) %>%
+      dplyr::rename("id_facet" = !!gran_facet) %>%
+      dplyr::rename("id_x" = !!gran_x) %>%
+      dplyr::rename("sim_data" = {{ response }}) %>%
       # mutate(sim_data = scale(sim_data)) %>%
       compute_quantiles(
         quantile_prob =

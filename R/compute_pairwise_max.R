@@ -6,7 +6,7 @@
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
-#' @return
+#' @return the raw weighted pairwise distance
 #'
 #' @examples
 #' library(tidyverse)

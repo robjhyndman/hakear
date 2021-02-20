@@ -6,7 +6,7 @@
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
-#' @return
+#' @return the weighted pairwise distance normalised using permutation
 #'
 #' @examples
 #' library(tidyverse)
@@ -39,25 +39,25 @@ compute_norm_pairwise_max <- function(.data,
   if (!((gran_x %in% names(.data) &
     (gran_facet %in% names(.data))))) {
     .data <- .data %>%
-      create_gran(gran_x) %>%
-      create_gran(gran_facet)
+      gravitas::create_gran(gran_x) %>%
+      gravitas::create_gran(gran_facet)
   }
 
-  shuffle_data <- mclapply(
+  shuffle_data <- parallel::mclapply(
     seq_len(nperm),
     function(x) {
       set.seed(2020 + x)
       rows <- sample(nrow(.data))
-      new_response <- select(as_tibble(.data), {{ response }})[rows, ] %>% pull({{ response }})
+      new_response <- dplyr::select(tibble::as_tibble(.data), {{ response }})[rows, ] %>% dplyr::pull({{ response }})
 
       names_response <- names(tidyselect::eval_select(dplyr::enquo(response), .data))
 
       # shuffled data made on the fly
       new_data <- .data %>%
-        select(-{{ response }}) %>%
-        mutate(new_response = new_response) %>%
-        mutate(!!names_response := new_response) %>%
-        select(-new_response)
+        dplyr::select(-{{ response }}) %>%
+        dplyr::mutate(new_response = new_response) %>%
+        dplyr::mutate(!!names_response := new_response) %>%
+        dplyr::select(-new_response)
       # compute raw on this shuffled data
 
       shuffle_raw <- compute_pairwise_max(
@@ -68,7 +68,7 @@ compute_norm_pairwise_max <- function(.data,
       ) %>% set_names("mmpd_raw")
       shuffle_raw
     }
-  ) %>% bind_rows()
+  ) %>% dplyr::bind_rows()
 
   val <- (mmpd_raw - mean(shuffle_data$mmpd_raw, na.rm = TRUE)) / sd(shuffle_data$mmpd_raw, na.rm = TRUE)
 

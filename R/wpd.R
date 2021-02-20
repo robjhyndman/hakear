@@ -49,7 +49,7 @@ wpd <- function(.data,
   }
 
   harmony_tbl_lev <-   harmony_tbl %>%
-    mutate(lev = if_else(facet_levels <= 5 & x_levels <= 5,"low", "high"))
+    dplyr::mutate(lev = if_else(facet_levels <= 5 & x_levels <= 5,"low", "high"))
 
 
   if(!use_perm){
@@ -67,7 +67,7 @@ wpd <- function(.data,
   }
 
   else{
-    mclapply(seq_len(nrow(harmony_tbl_lev)),
+    parallel::mclapply(seq_len(nrow(harmony_tbl_lev)),
              function(x){
                if(harmony_tbl_lev[x, ]$lev == "high"){
                  compute_pairwise_norm_scalar(

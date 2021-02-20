@@ -7,7 +7,7 @@
 #' @return a list with each element containing a tibble with the harmony pair and response variable
 #' @examples
 #' sm <- smart_meter10 %>%
-#' filter(customer_id %in% c("10017936"))
+#' dplyr::filter(customer_id %in% c("10017936"))
 #'harmonies <- sm %>%
 #' harmony(
 #'   ugran = "month",
@@ -24,11 +24,11 @@ create_harmony_tbl_data <- function(.data,
                                     harmony_tbl = NULL,
                                     response = NULL) {
   harmonies_split <- harmony_tbl %>%
-    group_by(
+    dplyr::group_by(
       facet_variable,
       x_variable
     ) %>%
-    group_split()
+    dplyr::group_split()
 
   data_split <- lapply(
     harmonies_split,

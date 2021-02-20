@@ -21,7 +21,7 @@ Create data for all harmony pairs in a harmony table
 }
 \examples{
 sm <- smart_meter10 \%>\%
-filter(customer_id \%in\% c("10017936"))
+dplyr::filter(customer_id \%in\% c("10017936"))
 harmonies <- sm \%>\%
 harmony(
   ugran = "month",

@@ -39,7 +39,7 @@ library(tidyverse)
 library(gravitas)
 library(parallel)
 sm <- smart_meter10 \%>\%
-  filter(customer_id \%in\% c("10017936"))
+  dplyr::filter(customer_id \%in\% c("10017936"))
 gran_x <- "week_month"
 gran_facet <- "week_fortnight"
 v <- compute_pairwise_norm(sm, gran_x, gran_facet,

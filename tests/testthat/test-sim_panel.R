@@ -17,7 +17,7 @@ sim_panel_1111 <- sim_panel(
   ntimes = 4,
   sim_dist = sim_varx_normal(3, 2, 0, 1, w = 3)
 ) %>%
-  unnest(data)
+  tidyr::unnest(data)
 set.seed(9999)
 sim_panel_9999 <- sim_panel(
   nx = 3,
@@ -25,7 +25,7 @@ sim_panel_9999 <- sim_panel(
   ntimes = 4,
   sim_dist = sim_varx_normal(3, 2, 0, 1, w = 3)
 ) %>%
-  unnest(data)
+  tidyr::unnest(data)
 
 
 sim_panel_1111 %>%
@@ -33,9 +33,9 @@ sim_panel_1111 %>%
   geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
   facet_wrap(~id_facet)
 
-x2 <- sim_panel_1111 %>% filter(id_facet == 1, id_x == 2)
-x3 <- sim_panel_1111 %>% filter(id_facet == 1, id_x == 3)
-f2 <- sim_panel_1111 %>% filter(id_facet == 2, id_x == 2)
+x2 <- sim_panel_1111 %>% dplyr::filter(id_facet == 1, id_x == 2)
+x3 <- sim_panel_1111 %>% dplyr::filter(id_facet == 1, id_x == 3)
+f2 <- sim_panel_1111 %>% dplyr::filter(id_facet == 2, id_x == 2)
 
 
 test_that("design varx is working such that within-facet distances close to w", {
@@ -78,7 +78,7 @@ simf_1111 <- sim_panel(
   ntimes = 4,
   sim_dist = sim_varf_normal(3, 2, 0, 1, w = 3)
 ) %>%
-  unnest(data)
+  tidyr::unnest(data)
 set.seed(9999)
 simf_9999 <- sim_panel(
   nx = 3,
@@ -86,7 +86,7 @@ simf_9999 <- sim_panel(
   ntimes = 4,
   sim_dist = sim_varf_normal(3, 2, 0, 1, w = 3)
 ) %>%
-  unnest(data)
+  tidyr::unnest(data)
 
 
 simf_1111 %>%
@@ -94,10 +94,10 @@ simf_1111 %>%
   geom_boxplot(aes(x = as.factor(id_x), y = sim_data)) +
   facet_wrap(~id_facet)
 
-x2 <- simf_1111 %>% filter(id_facet == 1, id_x == 2)
-x3 <- simf_1111 %>% filter(id_facet == 1, id_x == 3)
-f2 <- simf_1111 %>% filter(id_facet == 2, id_x == 2)
-f3 <- simf_1111 %>% filter(id_facet == 1, id_x == 3)
+x2 <- simf_1111 %>% dplyr::filter(id_facet == 1, id_x == 2)
+x3 <- simf_1111 %>% dplyr::filter(id_facet == 1, id_x == 3)
+f2 <- simf_1111 %>% dplyr::filter(id_facet == 2, id_x == 2)
+f3 <- simf_1111 %>% dplyr::filter(id_facet == 1, id_x == 3)
 
 
 test_that("design varf is working such that within-facet distances close to 0", {
@@ -136,7 +136,7 @@ test_that("how varx and varf behave relative to each other", {
 })
 
 # simf_1111 %>% select(1:4) %>%
-#   bind_cols(varf = simf_1111$sim_data,
+#   dplyr::bind_cols(varf = simf_1111$sim_data,
 #                                         varx = sim_panel_1111$sim_data)
 
 
@@ -157,7 +157,7 @@ simv_1111 <- sim_panel(
   ntimes = 4,
   sim_dist = sim_varall_normal(3, 2, 0, 1, w = 3)
 ) %>%
-  unnest(data)
+  tidyr::unnest(data)
 set.seed(9999)
 simv_9999 <- sim_panel(
   nx = 3,
@@ -165,7 +165,7 @@ simv_9999 <- sim_panel(
   ntimes = 4,
   sim_dist = sim_varall_normal(3, 2, 0, 1, w = 3)
 ) %>%
-  unnest(data)
+  tidyr::unnest(data)
 
 
 simv_1111 %>%
@@ -174,10 +174,10 @@ simv_1111 %>%
   facet_wrap(~id_facet)
 
 
-x2 <- simv_1111 %>% filter(id_facet == 1, id_x == 2)
-x3 <- simv_1111 %>% filter(id_facet == 1, id_x == 3)
-f2 <- simv_1111 %>% filter(id_facet == 2, id_x == 2)
-f3 <- simv_1111 %>% filter(id_facet == 1, id_x == 3)
+x2 <- simv_1111 %>% dplyr::filter(id_facet == 1, id_x == 2)
+x3 <- simv_1111 %>% dplyr::filter(id_facet == 1, id_x == 3)
+f2 <- simv_1111 %>% dplyr::filter(id_facet == 2, id_x == 2)
+f3 <- simv_1111 %>% dplyr::filter(id_facet == 1, id_x == 3)
 
 test_that("design varf is working such that within-facet distances close to 0", {
   expect_gte(mean(x3$sim_data) - mean(x2$sim_data), 3)

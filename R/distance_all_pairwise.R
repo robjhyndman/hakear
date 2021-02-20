@@ -65,33 +65,33 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     sim_panel_quantiles$id_facet <- as.numeric(as.factor(sim_panel_quantiles$id_facet)) %>% factor()
   }
 
-  vm <- sim_panel_quantiles %>% mutate(row_number = row_number())
+  vm <- sim_panel_quantiles %>% dplyr::mutate(row_number = row_number())
 
   # differences of all combination of row taking two a time need to be computed
-  allcomb <- combn(vm$row_number, 2) %>%
+  allcomb <- utils::combn(vm$row_number, 2) %>%
     t() %>%
-    as_tibble()
+    tibble::as_tibble()
 
   # define within-facet and between-facet distances
   all_data <- allcomb %>%
-    left_join(vm, by = c("V1" = "row_number")) %>%
-    left_join(vm, by = c("V2" = "row_number")) %>%
-    mutate(dist_type = if_else(id_facet.x == id_facet.y,
+    dplyr::left_join(vm, by = c("V1" = "row_number")) %>%
+    dplyr::left_join(vm, by = c("V2" = "row_number")) %>%
+    dplyr::mutate(dist_type = if_else(id_facet.x == id_facet.y,
       "within-facet",
       if_else(id_x.x == id_x.y, "between-facet", "uncategorised")
     )) %>%
-    filter(dist_type != "uncategorised")
+    dplyr::filter(dist_type != "uncategorised")
 
   # remove un-ordered within-facet distances if categories are ordered
 
   if (dist_ordered) {
     all_data <- all_data %>%
-      mutate(
+      dplyr::mutate(
         remove_row =
           if_else((dist_type == "within-facet" &
             abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1), 1, 0)
       ) %>%
-      filter(remove_row == 0)
+      dplyr::filter(remove_row == 0)
   }
 
   all_dist <- lapply(
@@ -105,25 +105,25 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     }
   ) %>%
     unlist() %>%
-    as_tibble()
+    tibble::as_tibble()
 
 
   return_data <- all_data %>%
-    rename(
+    dplyr::rename(
       "id_facet_1" = "id_facet.x",
       "id_facet_2" = "id_facet.y",
       "id_x_1" = "id_x.x",
       "id_x_2" = "id_x.y"
     ) %>%
-    select(
+    dplyr::select(
       id_facet_1,
       id_x_1,
       id_facet_2,
       id_x_2,
       dist_type
     ) %>%
-    bind_cols(all_dist) %>%
-    mutate(trans_value = if_else(dist_type == "within-facet",
+    dplyr::bind_cols(all_dist) %>%
+    dplyr::mutate(trans_value = if_else(dist_type == "within-facet",
       lambda * value,
       (1 - lambda) * value
     ))

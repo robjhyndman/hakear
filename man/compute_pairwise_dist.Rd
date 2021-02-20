@@ -28,7 +28,7 @@ compute_pairwise_dist(
 \item{dist_ordered}{if categories are ordered}
 }
 \value{
-
+the raw weighted pairwise  within-facet and between-facet distances
 }
 \description{
 Title computing all within and between facet distances between quantile categories given a data

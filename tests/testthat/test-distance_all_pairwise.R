@@ -6,7 +6,7 @@ sim_panel_data <- sim_panel(
   sim_dist = distributional
   ::dist_normal(5, 10)
 ) %>%
-  unnest(c(data))
+  tidyr::unnest(c(data))
 
 
 sim_panel_quantiles <-

@@ -22,10 +22,10 @@
 #' @export
 create_harmony_data <- function(.data, harmony_tbl_row, response) {
   .data %>%
-    create_gran(harmony_tbl_row$facet_variable) %>%
-    create_gran(harmony_tbl_row$x_variable) %>%
-    as_tibble() %>%
-    select(
+    gravitas::create_gran(harmony_tbl_row$facet_variable) %>%
+    gravitas::create_gran(harmony_tbl_row$x_variable) %>%
+    tibble::as_tibble() %>%
+    dplyr::select(
       id_facet = harmony_tbl_row$facet_variable,
       id_x = harmony_tbl_row$x_variable,
       sim_data = {{ response }}
