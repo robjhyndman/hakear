@@ -29,7 +29,9 @@ wpd <- function(.data,
                 response = NULL,
                 quantile_prob = seq(0.01, 0.99, 0.01),
                 dist_ordered = TRUE,
-                lambda = 0.67) {
+                lambda = 0.67,
+                nperm = 20,
+                use_perm = TRUE) {
 
 
   # one row or all harmonies of the harmony table
@@ -46,17 +48,50 @@ wpd <- function(.data,
                                         {{response}})
   }
 
-  mclapply(harmony_data, function(x){
-         compute_pairwise_max(
-          x,
-         gran_x = "id_x",
-         gran_facet = "id_facet",
-         response = sim_data,
-         quantile_prob,
-         dist_ordered,
-         lambda
-         )
+  harmony_tbl_lev <-   harmony_tbl %>%
+    mutate(lev = if_else(facet_levels <= 5 & x_levels <= 5,"low", "high"))
+
+
+  if(!use_perm){
+    lapply(harmony_data,
+           function(x)
+             compute_pairwise_norm_scalar(
+               x,
+               gran_x = "id_x",
+               gran_facet = "id_facet",
+               response = sim_data,
+               quantile_prob,
+               dist_ordered,
+               lambda)
+    )
   }
-  )
+
+  else{
+    mclapply(seq_len(nrow(harmony_tbl_lev)),
+             function(x){
+               if(harmony_tbl_lev[x, ]$lev == "high"){
+                 compute_pairwise_norm_scalar(
+                   h %>% extract2(x),
+                   gran_x = "id_x",
+                   gran_facet = "id_facet",
+                   response = sim_data,
+                   quantile_prob,
+                   dist_ordered,
+                   lambda)
+               }
+               else {
+                 value = compute_pairwise_norm(
+                   h %>% extract2(x),
+                   gran_x = "id_x",
+                   gran_facet = "id_facet",
+                   response = sim_data,
+                   quantile_prob,
+                   dist_ordered,
+                   lambda,
+                   nperm = 20)
+               }
+             })
+
+  }
 }
 
