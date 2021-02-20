@@ -20,14 +20,14 @@ a list with each element containing a tibble with the harmony pair and response 
 Create data for all harmony pairs in a harmony table
 }
 \examples{
-# sm <- smart_meter10 \%>\%
-# filter(customer_id \%in\% c("10017936"))
-# harmonies <- sm \%>\%
-#  harmony(
-#    ugran = "month",
-#    filter_in = "wknd_wday",
-#    filter_out = c("hhour", "fortnight")
-#  )
+sm <- smart_meter10 \%>\%
+filter(customer_id \%in\% c("10017936"))
+harmonies <- sm \%>\%
+harmony(
+  ugran = "month",
+  filter_in = "wknd_wday",
+  filter_out = c("hhour", "fortnight")
+)
 all_harmony <- create_harmony_tbl_data(sm,
   harmony_tbl = harmonies,
   response = general_supply_kwh
