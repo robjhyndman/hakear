@@ -20,6 +20,8 @@ a list with each element containing a tibble with the harmony pair and response 
 Create data for all harmony pairs in a harmony table
 }
 \examples{
+library(gravitas)
+library(dplyr)
 sm <- smart_meter10 \%>\%
   dplyr::filter(customer_id \%in\% c("10017936"))
 harmonies <- sm \%>\%
