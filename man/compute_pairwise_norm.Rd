@@ -33,7 +33,7 @@ compute_pairwise_norm(
 \item{seed}{seed considered}
 }
 \value{
-
+weighted pairwise distances normalized using permutation approach
 }
 \description{
 Title Compute normalised mmpd

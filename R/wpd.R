@@ -39,6 +39,8 @@ wpd <- function(.data,
                 use_perm = TRUE) {
 
 
+  facet_levels <- x_levels <- sim_data <- NULL
+
   # one row or all harmonies of the harmony table
 
   if (nrow(harmony_tbl) != 1) {
@@ -55,7 +57,7 @@ wpd <- function(.data,
   }
 
   harmony_tbl_lev <- harmony_tbl %>%
-    dplyr::mutate(lev = if_else(facet_levels <= 5 & x_levels <= 5, "low", "high"))
+    dplyr::mutate(lev = dplyr::if_else(facet_levels <= 5 & x_levels <= 5, "low", "high"))
 
 
   if (!use_perm) {

@@ -49,7 +49,9 @@ distance_all_pairwise <- function(sim_panel_quantiles,
 # weights = function(x){1/x} multiplicative inverse)
 
 {
+  row_number <- id_facet.x <- id_facet.y <- id_x.x <- remove_row <- id_facet_1 <-  id_x_1 <- id_facet_2 <-  id_x_2 <- value <- id_x.y <-  NULL
 
+  dist_type <- NULL
   # ncoly <- sim_panel_quantiles %>%
   #   distinct(id_facet) %>%
   #   nrow()
@@ -77,9 +79,9 @@ distance_all_pairwise <- function(sim_panel_quantiles,
   all_data <- allcomb %>%
     dplyr::left_join(vm, by = c("V1" = "row_number")) %>%
     dplyr::left_join(vm, by = c("V2" = "row_number")) %>%
-    dplyr::mutate(dist_type = if_else(id_facet.x == id_facet.y,
+    dplyr::mutate(dist_type = dplyr::if_else(id_facet.x == id_facet.y,
       "within-facet",
-      if_else(id_x.x == id_x.y, "between-facet", "uncategorised")
+      dplyr::if_else(id_x.x == id_x.y, "between-facet", "uncategorised")
     )) %>%
     dplyr::filter(dist_type != "uncategorised")
 
@@ -89,7 +91,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     all_data <- all_data %>%
       dplyr::mutate(
         remove_row =
-          if_else((dist_type == "within-facet" &
+          dplyr::if_else((dist_type == "within-facet" &
             abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1), 1, 0)
       ) %>%
       dplyr::filter(remove_row == 0)
@@ -124,7 +126,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
       dist_type
     ) %>%
     dplyr::bind_cols(all_dist) %>%
-    dplyr::mutate(trans_value = if_else(dist_type == "within-facet",
+    dplyr::mutate(trans_value = dplyr::if_else(dist_type == "within-facet",
       lambda * value,
       (1 - lambda) * value
     ))

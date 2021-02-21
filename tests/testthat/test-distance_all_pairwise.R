@@ -3,8 +3,7 @@ sim_panel_data <- sim_panel(
   nx = 3,
   nfacet = 2,
   ntimes = 10,
-  sim_dist = distributional
-  ::dist_normal(5, 10)
+  sim_dist = distributional::dist_normal(5, 10)
 ) %>%
   tidyr::unnest(c(data))
 

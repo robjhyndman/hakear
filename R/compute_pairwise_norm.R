@@ -8,7 +8,7 @@
 #' @param dist_ordered if categories are ordered
 #' @param nperm number of permutations for normalization
 #' @param seed seed considered
-#' @return
+#' @return weighted pairwise distances normalized using permutation approach
 #'
 #' @examples
 #' library(tidyverse)
@@ -32,6 +32,9 @@ compute_pairwise_norm <- function(.data,
                                   dist_ordered = TRUE,
                                   nperm = 100,
                                   seed = 9000) {
+
+ sd <- NULL
+
   mmpd_raw <- compute_pairwise_max(
     .data, gran_x, gran_facet,
     {{ response }}, quantile_prob,

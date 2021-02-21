@@ -43,5 +43,8 @@ compute_pairwise_norm_scalar <- function(.data,
   raw <- max(dist_data$trans_value, na.rm = TRUE)
 
   # fitting a log-linear model and normalising for the number of distances
-  (raw - 0.0027 * log(nrow(dist_data))) %>% round(digits = 3)
+  #(raw - 0.0027 * log(nrow(dist_data))) %>% round(digits = 3)
+
+  (raw - 1/(23.5 - 0.99 * log(nrow(dist_data)))) %>%
+    round(digits = 3)
 }

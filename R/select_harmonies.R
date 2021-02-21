@@ -3,11 +3,11 @@
 #' @param harmony_tbl A tibble containing one or more hamronies with facet_variable, x_variable, facet_levels and x_levels
 #' @param dist_ordered if categories are ordered
 #' @param quantile_prob numeric vector of probabilities with value #'in [0,1]  whose sample quantiles are wanted. Default is set to #' "decile" plot
-#' @param lambda value of tuning parameter for computing weighted
+#' @param lambda value of tuning parameter for computing weighted pairwise distances
 #' @param nperm number of permutations for normalization
 #' @param response the response variable
 #' @param use_perm should permutation approach for normalization be used
-#'
+#' @param nsamp number of permutation for computing the threshold
 #' @examples
 #' library(gravitas)
 #' library(parallel)
@@ -36,6 +36,7 @@ select_harmonies <- function(.data,
                              use_perm = FALSE,
                              nsamp = 2) {
 
+  select_harmony <- value <- NULL
 
   wpd_obs <- wpd(.data,
                  harmony_tbl,
@@ -61,7 +62,7 @@ select_harmonies <- function(.data,
 
       data_sample <- .data %>%
         dplyr::select(-{{response}}) %>%
-        bind_cols(response = response_sample)
+        dplyr::bind_cols(response = response_sample)
 
 
 wpd(data_sample,
@@ -78,7 +79,7 @@ wpd(data_sample,
 
 
     harmony_tbl %>%
-      bind_cols(wpd_obs) %>%
+      dplyr::bind_cols(wpd_obs) %>%
       dplyr::mutate(select_harmony = wpd_obs > threshold) %>%
       dplyr::filter(select_harmony==TRUE) %>%
       dplyr::select(-select_harmony) %>%

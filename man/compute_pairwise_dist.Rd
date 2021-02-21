@@ -26,6 +26,8 @@ compute_pairwise_dist(
 \item{quantile_prob}{probabilities}
 
 \item{dist_ordered}{if categories are ordered}
+
+\item{lambda}{value of tuning parameter for computing weighted pairwise distances}
 }
 \value{
 the raw weighted pairwise  within-facet and between-facet distances

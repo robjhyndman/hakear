@@ -27,11 +27,13 @@ select_harmonies(
 
 \item{dist_ordered}{if categories are ordered}
 
-\item{lambda}{value of tuning parameter for computing weighted}
+\item{lambda}{value of tuning parameter for computing weighted pairwise distances}
 
 \item{nperm}{number of permutations for normalization}
 
 \item{use_perm}{should permutation approach for normalization be used}
+
+\item{nsamp}{number of permutation for computing the threshold}
 }
 \description{
 Select harmonies with significant patterns

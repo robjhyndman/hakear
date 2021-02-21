@@ -75,17 +75,21 @@
 #' compute_pairwise_max(sim_panel_data, "id_x", "id_facet",
 #'   response = sim_data
 #' )
-#' export
+#' @export
 sim_panel <- function(nx = 2, nfacet = 3,
                       ntimes = 500,
                       sim_dist =
                         sim_varall) {
+
+  sd <- w <- sim_data <- NULL
+
+
   sim_varall <- function(nx,
                          nfacet,
                          mean = 0,
                          sd = 1,
                          w = 2) {
-    dist_normal((mean + seq(0, (nx * nfacet - 1), by = 1) * w), sd)
+    distributional::dist_normal((mean + seq(0, (nx * nfacet - 1), by = 1) * w), sd)
   }
 
 
@@ -98,7 +102,7 @@ sim_panel <- function(nx = 2, nfacet = 3,
   id_x <- rep(seq_len(nx), nfacet)
   id_facet <- rep(seq_len(nfacet), each = nx)
 
-  sim_data2 <- tibble(
+  sim_data2 <- tibble::tibble(
     id_x,
     id_facet,
     sim_dist_data
@@ -119,5 +123,5 @@ sim_panel <- function(nx = 2, nfacet = 3,
       nfacet, nx,
       id_facet, id_x
     ) %>%
-    nest()
+    tidyr::nest()
 }

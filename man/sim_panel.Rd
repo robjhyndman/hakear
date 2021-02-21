@@ -91,7 +91,6 @@ compute_quantiles(sim_panel_data) \%>\%
 compute_pairwise_max(sim_panel_data, "id_x", "id_facet",
   response = sim_data
 )
-export
 }
 \author{
 Sayani07

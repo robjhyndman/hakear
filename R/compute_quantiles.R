@@ -48,6 +48,7 @@
 compute_quantiles <- function(sim_panel_data,
                               quantile_prob = seq(0.01, 0.99, 0.01)) {
 
+  sim_data <- id_facet <- id_x <- list_data <- sim_data_quantile <-  NULL
   # preprocess the data(quantile_transform)
   sim_panel_data <- sim_panel_data %>%
     dplyr::ungroup()
@@ -65,7 +66,7 @@ compute_quantiles <- function(sim_panel_data,
     dplyr::group_by(id_facet, id_x) %>%
     dplyr::summarize(
       list_data = list(sim_data),
-      sim_data_quantile = quantile(unlist(list_data),
+      sim_data_quantile = stats::quantile(unlist(list_data),
         quantile_prob,
         na.rm = TRUE
       ),
@@ -73,7 +74,7 @@ compute_quantiles <- function(sim_panel_data,
     ) %>%
     dplyr::ungroup() %>%
     dplyr::select(-list_data) %>%
-    nest(sim_data_quantile = sim_data_quantile)
+    tidyr::nest(sim_data_quantile = sim_data_quantile)
   sim_facet_data
   # put each x on the columns so that pairwise distance could be computed
   # pivot_wider(id_cols = c(1,2,4),

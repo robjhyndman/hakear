@@ -1,4 +1,7 @@
 #' @importFrom magrittr %>%
 #' @export
 magrittr::`%>%`
-#' @importFrom importFrom("stats", "filter", "qqnorm", "quantile", "sd")
+#' @importFrom  "stats" "filter" "qqnorm" "quantile" "sd"
+#' @importFrom rlang :=
+#' @export
+rlang::`:=`

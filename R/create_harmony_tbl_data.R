@@ -23,6 +23,9 @@
 create_harmony_tbl_data <- function(.data,
                                     harmony_tbl = NULL,
                                     response = NULL) {
+
+  facet_variable <- x_variable <- NULL
+
   harmonies_split <- harmony_tbl %>%
     dplyr::group_by(
       facet_variable,

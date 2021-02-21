@@ -6,6 +6,7 @@
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
+#' @param lambda value of tuning parameter for computing weighted pairwise distances
 #' @return the raw weighted pairwise  within-facet and between-facet distances
 #'
 #' @examples
