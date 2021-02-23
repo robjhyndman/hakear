@@ -75,17 +75,22 @@ wpd(data_sample,
              use_perm)
 })
 
-    threshold <- stats::quantile(unlist(wpd_sample), probs = 0.9)
+    threshold_01 <- stats::quantile(unlist(wpd_sample), probs = 0.99)
+
+    threshold_02 <- stats::quantile(unlist(wpd_sample), probs = 0.95)
+
+    threshold_03 <- stats::quantile(unlist(wpd_sample), probs = 0.90)
 
 
     harmony_tbl %>%
       dplyr::bind_cols(wpd_obs) %>%
-      dplyr::mutate(select_harmony = wpd_obs > threshold) %>%
-      dplyr::filter(select_harmony==TRUE) %>%
-      dplyr::select(-select_harmony) %>%
       dplyr::rename(wpd = value) %>%
+      dplyr::mutate(wpd = round(wpd, 3)) %>%
+      dplyr::mutate(select_harmony =
+                      if_else(wpd_obs > threshold_01,
+                              paste(wpd, "***", sep = " "),
+                              if_else(wpd_obs > threshold_02, paste(wpd, "**", sep = " "),
+                                      if_else(wpd_obs > threshold_03, paste(wpd, "*", sep = " "), as.character(wpd))))) %>%
       dplyr::arrange(-wpd)
-    #                            gt_maxpd = max_pd > right_quantile_maxpd)
-
 
 }
