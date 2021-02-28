@@ -1,6 +1,6 @@
 #' computes wpd for one harmony or harmony table
-#' chooses compute_pairwise_max for smaller levels (<=5)
-#' chooses compute_pairwise_norm for higher levels (>5)
+#' chooses compute_pairwise_norm for smaller levels (<=5)
+#' chooses compute_pairwise_norm_scalar for higher levels (>5)
 #'
 #' @param .data a tsibble or data with already computed categories
 #' @param harmony_tbl A tibble containing one or more hamronies with facet_variable, x_variable, facet_levels and x_levels

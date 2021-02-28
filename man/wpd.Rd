@@ -3,8 +3,8 @@
 \name{wpd}
 \alias{wpd}
 \title{computes wpd for one harmony or harmony table
-chooses compute_pairwise_max for smaller levels (<=5)
-chooses compute_pairwise_norm for higher levels (>5)}
+chooses compute_pairwise_norm for smaller levels (<=5)
+chooses compute_pairwise_norm_scalar for higher levels (>5)}
 \usage{
 wpd(
   .data,
@@ -36,8 +36,8 @@ wpd(
 }
 \description{
 computes wpd for one harmony or harmony table
-chooses compute_pairwise_max for smaller levels (<=5)
-chooses compute_pairwise_norm for higher levels (>5)
+chooses compute_pairwise_norm for smaller levels (<=5)
+chooses compute_pairwise_norm_scalar for higher levels (>5)
 }
 \examples{
 library(gravitas)
