@@ -10,6 +10,7 @@
 #' @param nperm number of permutations for normalization
 #' @param response the response variable
 #' @param use_perm should permutation approach for normalization be used
+#' @param create_harmony_data a logical value indicating if data corresponding to harmonies to be created or not
 #'
 #' @examples
 #' library(gravitas)
