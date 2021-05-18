@@ -34,6 +34,8 @@ wpd_threshold(
 \item{nperm}{number of permutations for normalization}
 
 \item{use_perm}{should permutation approach for normalization be used}
+
+\item{create_harmony_data}{a logical value indicating if data corresponding to harmonies to be created or not}
 }
 \description{
 chooses threshold for a harmony table
