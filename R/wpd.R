@@ -25,7 +25,7 @@
 #'     filter_out = c("hhour", "fortnight")
 #'   )
 #' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies,
+#'   harmony_tbl = harmonies[1,],
 #'   response = general_supply_kwh
 #' )
 #' @export
@@ -36,13 +36,16 @@ wpd <- function(.data,
                 dist_ordered = TRUE,
                 lambda = 0.67,
                 nperm = 20,
-                use_perm = TRUE) {
+                use_perm = TRUE,
+                create_harmony_data = TRUE) {
 
 
   facet_levels <- x_levels <- sim_data <- NULL
 
   # one row or all harmonies of the harmony table
 
+
+if(create_harmony_data){
   if (nrow(harmony_tbl) != 1) {
     harmony_data <- create_harmony_tbl_data(.data,
       harmony_tbl = harmony_tbl,
@@ -54,6 +57,10 @@ wpd <- function(.data,
       harmony_tbl_row = harmony_tbl,
       {{ response }}
     ) %>% list()
+  }
+}
+  if(!create_harmony_data){
+    harmony_data <- .data
   }
 
   harmony_tbl_lev <- harmony_tbl %>%
