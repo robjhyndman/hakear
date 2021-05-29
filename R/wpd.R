@@ -109,7 +109,7 @@ if(create_harmony_data){
             quantile_prob,
             dist_ordered,
             lambda,
-            nperm = 20
+            nperm = nperm
           )
         }
       }
