@@ -16,8 +16,8 @@
 #' library(parallel)
 #' sm <- smart_meter10 %>%
 #'   dplyr::filter(customer_id %in% c("10017936"))
-#' gran_x <- "week_month"
-#' gran_facet <- "week_fortnight"
+#' gran_x <- "day_week"
+#' gran_facet <- NA
 #' v <- compute_pairwise_norm(sm, gran_x, gran_facet,
 #'   response = general_supply_kwh, nperm = 20
 #' )
@@ -33,21 +33,13 @@ compute_pairwise_norm <- function(.data,
                                   nperm = 100,
                                   seed = 9000) {
 
- sd <- NULL
+  sd <- NULL
 
   mmpd_raw <- compute_pairwise_max(
     .data, gran_x, gran_facet,
     {{ response }}, quantile_prob,
     dist_ordered
   )
-
-  if (!((gran_x %in% names(.data) &
-    (gran_facet %in% names(.data))))) {
-    .data <- .data %>%
-      gravitas::create_gran(gran_x) %>%
-      gravitas::create_gran(gran_facet)
-  }
-
   .data <- .data %>% dplyr::ungroup()
 
   shuffle_data <- parallel::mclapply(
