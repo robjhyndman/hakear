@@ -75,11 +75,11 @@ wpd(data_sample,
              use_perm)
 })
 
-    threshold_01 <- stats::quantile(unlist(wpd_sample), probs = 0.99)
+    threshold_01 <- stats::quantile(unlist(wpd_sample), probs = 0.99, na.rm = TRUE)
 
-    threshold_02 <- stats::quantile(unlist(wpd_sample), probs = 0.95)
+    threshold_02 <- stats::quantile(unlist(wpd_sample), probs = 0.95, na.rm = TRUE)
 
-    threshold_03 <- stats::quantile(unlist(wpd_sample), probs = 0.90)
+    threshold_03 <- stats::quantile(unlist(wpd_sample), probs = 0.90, na.rm = TRUE)
 
 
     harmony_tbl %>%
