@@ -23,13 +23,31 @@
 #' )
 #' @export
 create_harmony_data <- function(.data, harmony_tbl_row, response) {
-  .data %>%
+
+  if(!is.na(harmony_tbl_row$facet_variable)){
+  .data <- .data %>%
     gravitas::create_gran(harmony_tbl_row$facet_variable) %>%
-    gravitas::create_gran(harmony_tbl_row$x_variable) %>%
-    tibble::as_tibble() %>%
+    gravitas::create_gran(harmony_tbl_row$x_variable)
+
+
+  .data %>% tibble::as_tibble() %>%
     dplyr::select(
       id_facet = harmony_tbl_row$facet_variable,
       id_x = harmony_tbl_row$x_variable,
       sim_data = {{ response }}
     )
+  }
+  else
+  {
+    .data <- .data %>%
+      gravitas::create_gran(harmony_tbl_row$x_variable)
+
+
+    .data %>% tibble::as_tibble() %>%
+      dplyr::select(
+        #id_facet = NA,
+        id_x = harmony_tbl_row$x_variable,
+        sim_data = {{ response }}
+      )
+  }
 }

@@ -28,12 +28,21 @@ create_harmony_tbl_data <- function(.data,
 
   facet_variable <- x_variable <- NULL
 
-  harmonies_split <- harmony_tbl %>%
-    dplyr::group_by(
-      facet_variable,
-      x_variable
-    ) %>%
-    dplyr::group_split()
+  if(!is.na(harmony_tbl_row$facet_variable)){
+    harmonies_split <- harmony_tbl %>%
+      dplyr::group_by(
+        facet_variable,
+        x_variable
+      ) %>%
+      dplyr::group_split()
+  }
+
+  else{
+    harmonies_split <- harmony_tbl %>%
+      select(-facet_levels) %>%
+      distinct() %>%
+      dplyr::group_split(x_variable)
+  }
 
   data_split <- lapply(
     harmonies_split,
