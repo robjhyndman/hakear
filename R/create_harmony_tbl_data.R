@@ -16,6 +16,7 @@
 #'     filter_in = "wknd_wday",
 #'     filter_out = c("hhour", "fortnight")
 #'   )
+#' #harmonies <- harmonies %>% mutate(facet_variable = NA)
 #' all_harmony <- create_harmony_tbl_data(sm,
 #'   harmony_tbl = harmonies,
 #'   response = general_supply_kwh
@@ -28,7 +29,7 @@ create_harmony_tbl_data <- function(.data,
 
   facet_variable <- x_variable <- NULL
 
-  if(!is.na(harmony_tbl_row$facet_variable)){
+  if(all(!is.na(harmony_tbl$facet_variable))){
     harmonies_split <- harmony_tbl %>%
       dplyr::group_by(
         facet_variable,

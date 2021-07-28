@@ -30,34 +30,21 @@ compute_pairwise_dist <- function(.data,
                                     seq(0.01, 0.99, 0.01),
                                   dist_ordered = TRUE,
                                   lambda = 0.67) {
-  if(!is.na(gran_facet))
- {
-    if (!((gran_x %in% names(.data) &
-           (gran_facet %in% names(.data)))))
-      .data <- .data %>%
-        gravitas::create_gran(gran_x) %>%
+
+  if (!((gran_x %in% names(.data) &
+         (gran_facet %in% names(.data))))) {
+    if(!is.na(gran_facet))
+    .data <- .data %>%
+      gravitas::create_gran(gran_x) %>%
         gravitas::create_gran(gran_facet) %>%
         dplyr::rename("id_facet" = !!gran_facet) %>%
         dplyr::rename("id_x" = !!gran_x)
-    else{
-      .data <- .data %>%
-        dplyr::rename("id_facet" = !!gran_facet) %>%
-        dplyr::rename("id_x" = !!gran_x)
-    }
-  }
+    else
 
-    else{
-      if (!((gran_x %in% names(.data) )))
       .data <- .data %>%
         gravitas::create_gran(gran_x) %>%
         dplyr::rename("id_x" = !!gran_x) %>%
         dplyr::mutate(id_facet = 1)
-      else{
-        .data <- .data %>%
-          dplyr::rename("id_facet" = !!gran_facet) %>%
-          dplyr::rename("id_x" = !!gran_x)
-      }
-
     lambda = 1
   }
 

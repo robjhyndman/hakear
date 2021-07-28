@@ -17,6 +17,7 @@
 #'     filter_in = "wknd_wday",
 #'     filter_out = c("hhour", "fortnight")
 #'   )
+#' #harmonies <- harmonies %>% mutate(facet_variable = NA)
 #' panel_data <- create_harmony_data(
 #'   sm,
 #'   harmonies[3, ], general_supply_kwh
@@ -48,6 +49,8 @@ create_harmony_data <- function(.data, harmony_tbl_row, response) {
         #id_facet = NA,
         id_x = harmony_tbl_row$x_variable,
         sim_data = {{ response }}
-      )
+      ) %>%
+      dplyr::mutate(id_facet = 1) %>%
+      dplyr::select(id_facet, id_x, sim_data)
   }
 }

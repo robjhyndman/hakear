@@ -16,6 +16,7 @@
 #' library(gravitas)
 #' library(parallel)
 #' library(dplyr)
+
 #' library(tidyr)
 #' sm <- smart_meter10 %>%
 #'   filter(customer_id %in% c("10017936"))
@@ -25,10 +26,17 @@
 #'     filter_in = "wknd_wday",
 #'     filter_out = c("hhour", "fortnight")
 #'   )
+#'  harmonies1 <- harmonies %>% mutate(facet_variable = NA)
 #' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies[1,],
+#'   harmony_tbl = harmonies[16,],
 #'   response = general_supply_kwh
 #' )
+#'  h = harmonies1 %>% select(-facet_levels) %>% distinct() %>% mutate(facet_levels = NA)
+#'  all_harmony <- wpd(sm,
+#'   harmony_tbl = h[1,],
+#'   response = general_supply_kwh
+#' )
+#'
 #' @export
 wpd <- function(.data,
                 harmony_tbl = NULL,
@@ -44,7 +52,6 @@ wpd <- function(.data,
   facet_levels <- x_levels <- sim_data <- NULL
 
   # one row or all harmonies of the harmony table
-
 
 if(create_harmony_data){
   if (nrow(harmony_tbl) != 1) {
