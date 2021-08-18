@@ -28,7 +28,7 @@
 #'   )
 #'  harmonies1 <- harmonies %>% mutate(facet_variable = NA)
 #' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies[16,],
+#'   harmony_tbl = harmonies1[3,],
 #'   response = general_supply_kwh
 #' )
 #'  h = harmonies1 %>% select(-facet_levels) %>% distinct() %>% mutate(facet_levels = NA)

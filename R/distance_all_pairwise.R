@@ -43,10 +43,10 @@ distance_all_pairwise <- function(sim_panel_quantiles,
                                   quantile_prob = seq(0.01, 0.99, 0.01),
                                   dist_ordered = TRUE,
                                   lambda = 0.67)
-                                  # dist_rel = function(x){1-x}
-                                  # relative distance
-                                  # additive inverse
-# weights = function(x){1/x} multiplicative inverse)
+  # dist_rel = function(x){1-x}
+  # relative distance
+  # additive inverse
+  # weights = function(x){1/x} multiplicative inverse)
 
 {
   row_number <- id_facet.x <- id_facet.y <- id_x.x <- remove_row <- id_facet_1 <-  id_x_1 <- id_facet_2 <-  id_x_2 <- value <- id_x.y <-  NULL
@@ -60,12 +60,11 @@ distance_all_pairwise <- function(sim_panel_quantiles,
   #   nrow()
 
   # range of i, j and k are defined in this way since some cyclic granularities start from 0 and others from 1 -  it was creating a problem while filtering in m1 and m2, where m2 was leading to a tibble of 0 rows and JS function was failing
-
-  if (any((class(sim_panel_quantiles$id_x) %in% c("character", "integer")))) {
-    sim_panel_quantiles$id_x <- as.numeric(as.factor(sim_panel_quantiles$id_x)) %>% factor()
+  if (any((class(data$id_x) %in% c("character", "integer")))) {
+    data$id_x <- as.numeric(data$id_x) %>% factor()
   }
-  if (any((class(sim_panel_quantiles$id_facet) %in% c("character", "integer")))) {
-    sim_panel_quantiles$id_facet <- as.numeric(as.factor(sim_panel_quantiles$id_facet)) %>% factor()
+  if (any((class(data$id_facet) %in% c("character", "integer")))) {
+    data$id_facet <- as.numeric(data$id_facet) %>% factor()
   }
 
   vm <- sim_panel_quantiles %>% dplyr::mutate(row_number = row_number())
@@ -80,8 +79,8 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     dplyr::left_join(vm, by = c("V1" = "row_number")) %>%
     dplyr::left_join(vm, by = c("V2" = "row_number")) %>%
     dplyr::mutate(dist_type = dplyr::if_else(id_facet.x == id_facet.y,
-      "within-facet",
-      dplyr::if_else(id_x.x == id_x.y, "between-facet", "uncategorised")
+                                             "within-facet",
+                                             dplyr::if_else(id_x.x == id_x.y, "between-facet", "uncategorised")
     )) %>%
     dplyr::filter(dist_type != "uncategorised")
 
@@ -92,7 +91,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
       dplyr::mutate(
         remove_row =
           dplyr::if_else((dist_type == "within-facet" &
-            abs(as.numeric(id_x.y) - as.numeric(id_x.x)) != 1), 1, 0)
+                            (as.numeric(id_x.y) - as.numeric(id_x.x)) != 1), 1, 0)
       ) %>%
       dplyr::filter(remove_row == 0)
   }
@@ -127,8 +126,8 @@ distance_all_pairwise <- function(sim_panel_quantiles,
     ) %>%
     dplyr::bind_cols(all_dist) %>%
     dplyr::mutate(trans_value = dplyr::if_else(dist_type == "within-facet",
-      lambda * value,
-      (1 - lambda) * value
+                                               lambda * value,
+                                               (1 - lambda) * value
     ))
 
   return_data
@@ -141,7 +140,7 @@ JS <- function(prob, q, p) {
   ppmf <- pmf(x, prob, p)
   m <- 0.5 * (ppmf + qpmf)
   JS <- suppressWarnings(0.5 * (sum(stats::na.omit(ppmf * log(ppmf / m, base = 2))) +
-    sum(stats::na.omit(qpmf * log(qpmf / m, base = 2)))))
+                                  sum(stats::na.omit(qpmf * log(qpmf / m, base = 2)))))
   return(JS)
 }
 
