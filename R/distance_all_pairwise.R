@@ -60,11 +60,11 @@ distance_all_pairwise <- function(sim_panel_quantiles,
   #   nrow()
 
   # range of i, j and k are defined in this way since some cyclic granularities start from 0 and others from 1 -  it was creating a problem while filtering in m1 and m2, where m2 was leading to a tibble of 0 rows and JS function was failing
-  if (any((class(data$id_x) %in% c("character", "integer")))) {
-    data$id_x <- as.numeric(data$id_x) %>% factor()
+  if (any((class(sim_panel_quantiles$id_x) %in% c("character", "integer")))) {
+    sim_panel_quantiles$id_x <- as.numeric(sim_panel_quantiles$id_x) %>% factor()
   }
-  if (any((class(data$id_facet) %in% c("character", "integer")))) {
-    data$id_facet <- as.numeric(data$id_facet) %>% factor()
+  if (any((class(sim_panel_quantiles$id_facet) %in% c("character", "integer")))) {
+    sim_panel_quantiles$id_facet <- as.numeric(sim_panel_quantiles$id_facet) %>% factor()
   }
 
   vm <- sim_panel_quantiles %>% dplyr::mutate(row_number = row_number())
