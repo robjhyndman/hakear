@@ -44,15 +44,17 @@ library(parallel)
 library(dplyr)
 library(tidyr)
 sm <- smart_meter10 \%>\%
-  filter(customer_id \%in\% c("10017936"))
+  filter(customer_id \%in\% c("10017994"))
 harmonies <- sm \%>\%
   harmony(
     ugran = "month",
     filter_in = "wknd_wday",
     filter_out = c("hhour", "fortnight")
   )
+ harmonies1 <- harmonies \%>\% mutate(facet_variable = NA)
+ h = harmonies1 \%>\% select(-facet_levels) \%>\% distinct() \%>\% mutate(facet_levels = NA)
 all_harmony <- select_harmonies(sm,
-  harmony_tbl = harmonies,
+  harmony_tbl = h,
   response = general_supply_kwh
 )
 }

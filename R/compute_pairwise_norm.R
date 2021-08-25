@@ -16,7 +16,7 @@
 #' library(parallel)
 #' sm <- smart_meter10 %>%
 #'   dplyr::filter(customer_id %in% c("10017936"))
-#' gran_x <- "day_week"
+#' gran_x <- "wknd_wday"
 #' gran_facet <- NA
 #' v <- compute_pairwise_norm(sm, gran_x, gran_facet,
 #'   response = general_supply_kwh, nperm = 20

@@ -55,8 +55,15 @@ harmonies <- sm \%>\%
     filter_in = "wknd_wday",
     filter_out = c("hhour", "fortnight")
   )
+ harmonies1 <- harmonies \%>\% mutate(facet_variable = NA)
 all_harmony <- wpd(sm,
-  harmony_tbl = harmonies[1,],
+  harmony_tbl = harmonies1[3,],
   response = general_supply_kwh
 )
+ h = harmonies1 \%>\% select(-facet_levels) \%>\% distinct() \%>\% mutate(facet_levels = NA)
+ all_harmony <- wpd(sm,
+  harmony_tbl = h[5,],
+  response = general_supply_kwh
+)
+
 }

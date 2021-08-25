@@ -60,14 +60,22 @@ distance_all_pairwise <- function(sim_panel_quantiles,
   #   nrow()
 
   # range of i, j and k are defined in this way since some cyclic granularities start from 0 and others from 1 -  it was creating a problem while filtering in m1 and m2, where m2 was leading to a tibble of 0 rows and JS function was failing
-  if (any((class(sim_panel_quantiles$id_x) %in% c("character", "integer")))) {
-    sim_panel_quantiles$id_x <- as.numeric(sim_panel_quantiles$id_x) %>% factor()
-  }
-  if (any((class(sim_panel_quantiles$id_facet) %in% c("character", "integer")))) {
-    sim_panel_quantiles$id_facet <- as.numeric(sim_panel_quantiles$id_facet) %>% factor()
-  }
+  # if (any((class(sim_panel_quantiles$id_x) %in% c("character", "integer")))) {
+  #   sim_panel_quantiles$id_x <- as.numeric(sim_panel_quantiles$id_x) %>% factor()
+  # }
+  # if (any((class(sim_panel_quantiles$id_facet) %in% c("character", "integer")))) {
+  #   sim_panel_quantiles$id_facet <- as.numeric(sim_panel_quantiles$id_facet) %>% factor()
+  # }
 
-  vm <- sim_panel_quantiles %>% dplyr::mutate(row_number = row_number())
+
+  id_facet_ref <- sim_panel_quantiles$id_facet %>% unique() %>% as_tibble() %>%
+    set_names("id_facet") %>% mutate(id_facet_ref = row_number())
+
+  id_x_ref <-sim_panel_quantiles$id_x %>% unique() %>% as_tibble() %>%
+    set_names("id_x") %>% mutate(id_x_ref = row_number())
+
+  vm <- sim_panel_quantiles %>% left_join(id_facet_ref, by = "id_facet") %>% left_join(id_x_ref, by = "id_x") %>%
+    dplyr::mutate(row_number = row_number())
 
   # differences of all combination of row taking two a time need to be computed
   allcomb <- utils::combn(vm$row_number, 2) %>%
@@ -78,9 +86,9 @@ distance_all_pairwise <- function(sim_panel_quantiles,
   all_data <- allcomb %>%
     dplyr::left_join(vm, by = c("V1" = "row_number")) %>%
     dplyr::left_join(vm, by = c("V2" = "row_number")) %>%
-    dplyr::mutate(dist_type = dplyr::if_else(id_facet.x == id_facet.y,
+    dplyr::mutate(dist_type = dplyr::if_else(id_facet_ref.x == id_facet_ref.y,
                                              "within-facet",
-                                             dplyr::if_else(id_x.x == id_x.y, "between-facet", "uncategorised")
+                                             dplyr::if_else(id_x_ref.x == id_x_ref.y, "between-facet", "uncategorised")
     )) %>%
     dplyr::filter(dist_type != "uncategorised")
 
@@ -91,7 +99,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
       dplyr::mutate(
         remove_row =
           dplyr::if_else((dist_type == "within-facet" &
-                            (as.numeric(id_x.y) - as.numeric(id_x.x)) != 1), 1, 0)
+                            (as.numeric(id_x_ref.y) - as.numeric(id_x_ref.x)) != 1), 1, 0)
       ) %>%
       dplyr::filter(remove_row == 0)
   }

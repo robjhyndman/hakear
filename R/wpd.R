@@ -33,7 +33,7 @@
 #' )
 #'  h = harmonies1 %>% select(-facet_levels) %>% distinct() %>% mutate(facet_levels = NA)
 #'  all_harmony <- wpd(sm,
-#'   harmony_tbl = h[1,],
+#'   harmony_tbl = h[5,],
 #'   response = general_supply_kwh
 #' )
 #'
@@ -71,8 +71,22 @@ if(create_harmony_data){
     harmony_data <- .data
   }
 
-  harmony_tbl_lev <- harmony_tbl %>%
-    dplyr::mutate(lev = dplyr::if_else(facet_levels <= 5 & x_levels <= 5, "low", "high"))
+  if(all(is.na(harmony_tbl$facet_levels))){
+    harmony_tbl_lev <- harmony_tbl %>% dplyr::mutate(lev = dplyr::if_else(x_levels <= 5, "low", "high"))
+  } else {
+    harmony_tbl_lev <- harmony_tbl %>%
+      dplyr::mutate(lev = dplyr::if_else(facet_levels <= 5 & x_levels <= 5, "low", "high"))
+  }
+
+  # harmony_tbl$facet_levels = 0
+  #
+  # harmony_tbl_lev <- harmony_tbl %>%
+  #   dplyr::mutate(lev = dplyr::if_else((max(facet_levels,
+  #                                           x_levels,
+  #                                           na.rm = TRUE) <= 5),
+  #                                      "low",
+  #                                      "high")
+  #   )
 
 
   if (!use_perm) {
@@ -90,9 +104,7 @@ if(create_harmony_data){
         )
       }
     )
-  }
-
-  else {
+  } else {
     parallel::mclapply(
       seq_len(nrow(harmony_tbl_lev)),
       function(x) {
@@ -122,10 +134,10 @@ if(create_harmony_data){
       }
     )
   }
-
+}
   # wpd <- unlist(value) %>%
   #   tibble::as_tibble()
   #
   # harmony_tbl %>%
   #   dplyr::mutate(wpd = wpd)
-}
+

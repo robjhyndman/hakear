@@ -41,9 +41,9 @@ library(gravitas)
 library(parallel)
 sm <- smart_meter10 \%>\%
   dplyr::filter(customer_id \%in\% c("10017936"))
-gran_x <- "week_month"
+gran_x <- "day_week"
 gran_facet <- "week_fortnight"
-v <- compute_pairwise_norm_scalar(sm, gran_x, gran_facet,
+v <- compute_pairwise_norm_scalar(elec, gran_x, gran_facet,
   response = general_supply_kwh, lambda = 0.90
 )
 # month of the year not working in this setup
