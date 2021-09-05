@@ -1,4 +1,4 @@
-#' @title sim panel
+#' @title Simulate a panel of one or two categorical variables and a response variable corresponding to a specified distribution or design
 #' @param nx number of x categories
 #' @param nfacet number of facet categories
 #' @param ntimes number of observations to be simulated for each categories
@@ -13,9 +13,9 @@
 #' }
 #'
 #' sim_panel_data <- sim_panel(
-#'   nx = 2, nfacet = 3,
+#'   nx = 1, nfacet = 3,
 #'   ntimes = 5,
-#'   sim_dist = sim_varx_normal(2, 3, 0, 1, 10)
+#'   sim_dist = sim_varx_normal(1, 3, 0, 1, 10)
 #' ) %>% unnest(data)
 #'
 #' sim_panel_data %>%

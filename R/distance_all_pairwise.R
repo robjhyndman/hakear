@@ -14,27 +14,26 @@
 #' library(ggplot2)
 #' library(distributional)
 #' sim_panel_data <- sim_panel(
-#'   nx = 3,
-#'   nfacet = 4,
-#'   ntimes = 500,
+#'   nx = 2,
+#'   nfacet = 3,
+#'   ntimes = 5,
 #'   sim_dist = distributional
 #'   ::dist_normal(5, 10)
 #' ) %>%
 #'   unnest(c(data))
 #' sim_panel_quantiles <-
-#'   compute_quantiles(sim_panel_data,
-#'     quantile_prob = seq(0.01, 0.99, 0.01)
+#'   compute_quantiles(sim_panel_data
 #'   )
 #'
 #' distance_all_pairwise(sim_panel_quantiles, lambda = 0.5)
 #' dist_data <- distance_all_pairwise(sim_panel_quantiles, lambda = 0.7)
 #' # Plot raw distances
-#' ggplot(dist_data, aes(x = 1:26, y = value, colour = dist_type)) +
+#' ggplot(dist_data, aes(x = 1:9, y = value, colour = dist_type)) +
 #'   geom_line() +
 #'   geom_point()
 #' # Plot transformed distances
 #' ggplot(dist_data, aes(
-#'   x = 1:26, y = trans_value, colour =
+#'   x = 1:9, y = trans_value, colour =
 #'     dist_type
 #' )) +
 #'   geom_line() +
@@ -103,6 +102,7 @@ distance_all_pairwise <- function(sim_panel_quantiles,
       ) %>%
       dplyr::filter(remove_row == 0)
   }
+
 
   all_dist <- lapply(
     seq_len(nrow(all_data)),

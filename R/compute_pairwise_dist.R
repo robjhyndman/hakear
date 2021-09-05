@@ -2,7 +2,7 @@
 #'
 #' @param .data data for which mmpd needs to be calculated
 #' @param gran_x granularities mapped across x levels
-#' @param gran_facet granularities mapped across facetss
+#' @param gran_facet granularities mapped across facets
 #' @param response univarite response variable
 #' @param quantile_prob probabilities
 #' @param dist_ordered if categories are ordered
@@ -15,8 +15,8 @@
 #' library(parallel)
 #' sm <- smart_meter10 %>%
 #'   filter(customer_id %in% c("10017936"))
-#' gran_x <- "week_month"
-#' gran_facet <- "hour_day"
+#' gran_x <- "month_year"
+#' gran_facet <- "wknd_wday"
 #' v <- compute_pairwise_dist(sm, gran_x, gran_facet,
 #'   response = general_supply_kwh
 #' )
@@ -32,6 +32,7 @@ compute_pairwise_dist <- function(.data,
                                   lambda = 0.67) {
   if(!is.na(gran_facet))
  {
+    lambda_t = lambda
     if (!((gran_x %in% names(.data) &
            (gran_facet %in% names(.data)))))
       .data <- .data %>%
@@ -47,6 +48,7 @@ compute_pairwise_dist <- function(.data,
   }
 
     else{
+      lambda_t = 1
       if (!((gran_x %in% names(.data) )))
       .data <- .data %>%
         gravitas::create_gran(gran_x) %>%
@@ -57,8 +59,6 @@ compute_pairwise_dist <- function(.data,
           dplyr::rename("id_facet" = !!gran_facet) %>%
           dplyr::rename("id_x" = !!gran_x)
       }
-
-    lambda = 1
   }
 
   all_dist_data <- suppressMessages(
@@ -75,9 +75,10 @@ compute_pairwise_dist <- function(.data,
         quantile_prob =
           quantile_prob,
         dist_ordered = dist_ordered,
-        lambda = lambda
+        lambda = lambda_t
       )
   )
 
   all_dist_data
 }
+
