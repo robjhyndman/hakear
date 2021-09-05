@@ -56,8 +56,8 @@ library(gravitas)
 library(parallel)
 sm <- smart_meter10 \%>\%
   filter(customer_id \%in\% c("10017936"))
-gran_x <- "week_month"
-gran_facet <- "hour_day"
+gran_x <- "month_year"
+gran_facet <- "wknd_wday"
 v <- compute_pairwise_dist(sm, gran_x, gran_facet,
   response = general_supply_kwh
 )
@@ -68,8 +68,8 @@ library(parallel)
 sm <- smart_meter10 \%>\%
   filter(customer_id \%in\% c("10017936"))
 gran_x <- "week_month"
-gran_facet <- "hour_day"
-v <- compute_pairwise_dist(sm, gran_x, gran_facet,
+gran_facet <- "wknd_wday"
+v1 <- compute_pairwise_dist(sm, gran_x, gran_facet,
   response = general_supply_kwh
 )
 # month of the year not working in this setup

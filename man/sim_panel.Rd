@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_panel.R
 \name{sim_panel}
 \alias{sim_panel}
-\title{sim panel}
+\title{Simulate a panel of one or two categorical variables and a response variable corresponding to a specified distribution or design}
 \usage{
 sim_panel(nx = 2, nfacet = 3, ntimes = 500, sim_dist = sim_varall)
 }
@@ -19,7 +19,7 @@ sim_panel(nx = 2, nfacet = 3, ntimes = 500, sim_dist = sim_varall)
 the simulated data for the data structure considered
 }
 \description{
-sim panel
+Simulate a panel of one or two categorical variables and a response variable corresponding to a specified distribution or design
 }
 \examples{
 library(tidyverse)
@@ -29,9 +29,9 @@ sim_varx_normal <- function(nx, nfacet, mean, sd, w) {
 }
 
 sim_panel_data <- sim_panel(
-  nx = 2, nfacet = 3,
+  nx = 1, nfacet = 3,
   ntimes = 5,
-  sim_dist = sim_varx_normal(2, 3, 0, 1, 10)
+  sim_dist = sim_varx_normal(1, 3, 0, 1, 10)
 ) \%>\% unnest(data)
 
 sim_panel_data \%>\%
