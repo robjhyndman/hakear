@@ -16,13 +16,13 @@
 #' library(parallel)
 #' sm <- smart_meter10 %>%
 #'   dplyr::filter(customer_id %in% c("10017936"))
-#' gran_x <- "wknd_wday"
-#' gran_facet <- NA
+#' gran_x <- "week_month"
+#' gran_facet <- "wknd_wday"
 #' v <- compute_pairwise_norm(sm, gran_x, gran_facet,
-#'   response = general_supply_kwh, nperm = 20
+#'   response = general_supply_kwh, nperm = 20, lambda = 0.9
 #' )
 #' # month of the year not working in this setup
-#' @export compute_pairwise_norm
+#' @export
 compute_pairwise_norm <- function(.data,
                                   gran_x = NULL,
                                   gran_facet = NULL,
@@ -30,6 +30,7 @@ compute_pairwise_norm <- function(.data,
                                   quantile_prob =
                                     seq(0.01, 0.99, 0.01),
                                   dist_ordered = TRUE,
+                                  lambda = 0.67,
                                   nperm = 100,
                                   seed = 9000) {
 
@@ -38,7 +39,7 @@ compute_pairwise_norm <- function(.data,
   mmpd_raw <- compute_pairwise_max(
     .data, gran_x, gran_facet,
     {{ response }}, quantile_prob,
-    dist_ordered
+    dist_ordered,lambda
   )
   .data <- .data %>% dplyr::ungroup()
 
@@ -63,7 +64,8 @@ compute_pairwise_norm <- function(.data,
         new_data, gran_x, gran_facet,
         {{ response }},
         quantile_prob,
-        dist_ordered
+        dist_ordered,
+        lambda
       ) %>% rlang::set_names("mmpd_raw")
       shuffle_raw
     }
