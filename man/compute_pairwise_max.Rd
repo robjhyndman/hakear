@@ -41,8 +41,8 @@ library(gravitas)
 library(parallel)
 sm <- smart_meter10 \%>\%
   filter(customer_id \%in\% c("10017936"))
-gran_x <- "week_month"
-gran_facet <- "week_fortnight"
+gran_x <- "month_year"
+gran_facet <- "hour_day"
 v <- compute_pairwise_max(sm, gran_x, gran_facet,
   response = general_supply_kwh, lambda = 0.95
 )
