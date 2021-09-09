@@ -73,7 +73,7 @@ compute_pairwise_norm <- function(.data,
 
   sd1 <- if_else(sd(shuffle_data$mmpd_raw, na.rm = TRUE)==0,
                  1,
-                 sd(shuffle_data$mmpd_raw), na.rm = TRUE)
+                 sd(shuffle_data$mmpd_raw, na.rm = TRUE))
 
   val <- (mmpd_raw - mean(shuffle_data$mmpd_raw, na.rm = TRUE)) / sd1
   val
