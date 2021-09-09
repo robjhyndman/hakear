@@ -35,7 +35,7 @@
 #'  h = harmonies1 %>% select(-facet_levels) %>% distinct() %>% mutate(facet_levels = NA)
 #'  all_harmony <- wpd(sm,
 #'   harmony_tbl = h,
-#'   response = general_supply_kwh, nperm = 200
+#'   response = general_supply_kwh, nperm = 200, use_perm = TRUE
 #' )
 #'
 #' @export
@@ -83,17 +83,19 @@ wpd <- function(.data,
     lapply(
       harmony_data,
       function(x) {
-        compute_pairwise_norm_scalar(
-          x,
-          gran_x = "id_x",
-          gran_facet = "id_facet",
-          response = sim_data,
-          quantile_prob,
-          dist_ordered,
-          lambda
-        )
+d = compute_pairwise_norm_scalar(
+  x,
+  gran_x = "id_x",
+  gran_facet = "id_facet",
+  response = sim_data,
+  quantile_prob,
+  dist_ordered,
+  lambda
+)
+x %>% distinct(facet_variable, x_variable) %>% bind_cols(wpd=d)
       }
-    )
+)
+
   } else {
     parallel::mclapply(
       seq_len(nrow(harmony_tbl_lev)),
