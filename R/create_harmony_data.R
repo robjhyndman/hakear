@@ -31,7 +31,7 @@ create_harmony_data <- function(.data, harmony_tbl_row, response) {
     gravitas::create_gran(harmony_tbl_row$x_variable)
 
 
-  .data %>% tibble::as_tibble() %>%
+  data <- .data %>% tibble::as_tibble() %>%
     dplyr::select(
       id_facet = harmony_tbl_row$facet_variable,
       id_x = harmony_tbl_row$x_variable,
@@ -44,13 +44,17 @@ create_harmony_data <- function(.data, harmony_tbl_row, response) {
       gravitas::create_gran(harmony_tbl_row$x_variable)
 
 
-    .data %>% tibble::as_tibble() %>%
+    data <-.data %>% tibble::as_tibble() %>%
       dplyr::select(
         #id_facet = NA,
         id_x = harmony_tbl_row$x_variable,
         sim_data = {{ response }}
       ) %>%
-      dplyr::mutate(id_facet = 1) %>%
-      dplyr::select(id_facet, id_x, sim_data)
+      dplyr::mutate(id_facet = 1)
+
   }
+
+  data %>% mutate(x_variable = harmony_tbl_row$x_variable,
+                    facet_variable = harmony_tbl_row$facet_variable) %>%
+      dplyr::select(facet_variable,x_variable, id_facet, id_x, sim_data)
 }
