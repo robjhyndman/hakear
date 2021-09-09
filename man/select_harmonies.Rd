@@ -11,9 +11,9 @@ select_harmonies(
   quantile_prob = seq(0.01, 0.99, 0.01),
   dist_ordered = TRUE,
   lambda = 0.67,
-  nperm = 20,
+  nperm = 200,
   use_perm = FALSE,
-  nsamp = 2
+  nsamp = 200
 )
 }
 \arguments{
@@ -47,14 +47,14 @@ sm <- smart_meter10 \%>\%
   filter(customer_id \%in\% c("10017994"))
 harmonies <- sm \%>\%
   harmony(
-    ugran = "month",
+    ugran = "year",
     filter_in = "wknd_wday",
-    filter_out = c("hhour", "fortnight")
+    filter_out = c("hhour", "fortnight", "quarter", "semester")
   )
  harmonies1 <- harmonies \%>\% mutate(facet_variable = NA)
  h = harmonies1 \%>\% select(-facet_levels) \%>\% distinct() \%>\% mutate(facet_levels = NA)
 all_harmony <- select_harmonies(sm,
   harmony_tbl = h,
-  response = general_supply_kwh
+  response = general_supply_kwh, nperm = 200, nsamp = 20
 )
 }

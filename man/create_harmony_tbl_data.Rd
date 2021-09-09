@@ -32,7 +32,7 @@ harmonies <- sm \%>\%
   )
 #harmonies <- harmonies \%>\% mutate(facet_variable = NA)
 all_harmony <- create_harmony_tbl_data(sm,
-  harmony_tbl = harmonies,
+  harmony_tbl = harmonies[1:7,],
   response = general_supply_kwh
 )
 }

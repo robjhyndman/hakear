@@ -51,19 +51,20 @@ sm <- smart_meter10 \%>\%
   filter(customer_id \%in\% c("10017936"))
 harmonies <- sm \%>\%
   harmony(
-    ugran = "month",
+    ugran = "year",
     filter_in = "wknd_wday",
-    filter_out = c("hhour", "fortnight")
+    filter_out = c("hhour", "fortnight", "quarter", "semester")
   )
- harmonies1 <- harmonies \%>\% mutate(facet_variable = NA)
 all_harmony <- wpd(sm,
-  harmony_tbl = harmonies1[3,],
+  harmony_tbl = harmonies,
   response = general_supply_kwh
 )
+harmonies1 <- harmonies \%>\% mutate(facet_variable = NA)
+
  h = harmonies1 \%>\% select(-facet_levels) \%>\% distinct() \%>\% mutate(facet_levels = NA)
  all_harmony <- wpd(sm,
   harmony_tbl = h,
-  response = general_supply_kwh, nperm = 2
+  response = general_supply_kwh, nperm = 200
 )
 
 }
