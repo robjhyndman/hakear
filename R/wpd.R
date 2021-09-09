@@ -22,19 +22,20 @@
 #'   filter(customer_id %in% c("10017936"))
 #' harmonies <- sm %>%
 #'   harmony(
-#'     ugran = "month",
+#'     ugran = "year",
 #'     filter_in = "wknd_wday",
-#'     filter_out = c("hhour", "fortnight")
+#'     filter_out = c("hhour", "fortnight", "quarter", "semester")
 #'   )
-#'  harmonies1 <- harmonies %>% mutate(facet_variable = NA)
 #' all_harmony <- wpd(sm,
-#'   harmony_tbl = harmonies1[3,],
+#'   harmony_tbl = harmonies,
 #'   response = general_supply_kwh
 #' )
+#' harmonies1 <- harmonies %>% mutate(facet_variable = NA)
+#'
 #'  h = harmonies1 %>% select(-facet_levels) %>% distinct() %>% mutate(facet_levels = NA)
 #'  all_harmony <- wpd(sm,
-#'   harmony_tbl = h[5,],
-#'   response = general_supply_kwh
+#'   harmony_tbl = h,
+#'   response = general_supply_kwh, nperm = 200
 #' )
 #'
 #' @export
@@ -53,23 +54,22 @@ wpd <- function(.data,
 
   # one row or all harmonies of the harmony table
 
-if(create_harmony_data){
-  if (nrow(harmony_tbl) != 1) {
-    harmony_data <- create_harmony_tbl_data(.data,
-      harmony_tbl = harmony_tbl,
-      response = {{ response }}
-    )
-  }
-  else {
-    harmony_data <- create_harmony_data(.data,
-      harmony_tbl_row = harmony_tbl,
-      {{ response }}
-    ) %>% list()
-  }
-}
-  if(!create_harmony_data){
-    harmony_data <- .data
-  }
+  harmony_data <- create_harmony_tbl_data(.data,
+                                          harmony_tbl = harmony_tbl,
+                                          response = {{ response }}
+  )
+
+
+
+  harmony_tbl <- harmony_tbl %>%
+    dplyr::group_by(
+      facet_variable,
+      x_variable
+    ) %>%
+    dplyr::group_keys() %>%
+    left_join(harmony_tbl, by = c("facet_variable", "x_variable"))
+
+
 
   if(all(is.na(harmony_tbl$facet_levels))){
     harmony_tbl_lev <- harmony_tbl %>% dplyr::mutate(lev = dplyr::if_else(x_levels <= 5, "low", "high"))
@@ -77,16 +77,6 @@ if(create_harmony_data){
     harmony_tbl_lev <- harmony_tbl %>%
       dplyr::mutate(lev = dplyr::if_else(facet_levels <= 5 & x_levels <= 5, "low", "high"))
   }
-
-  # harmony_tbl$facet_levels = 0
-  #
-  # harmony_tbl_lev <- harmony_tbl %>%
-  #   dplyr::mutate(lev = dplyr::if_else((max(facet_levels,
-  #                                           x_levels,
-  #                                           na.rm = TRUE) <= 5),
-  #                                      "low",
-  #                                      "high")
-  #   )
 
 
   if (!use_perm) {
@@ -109,28 +99,29 @@ if(create_harmony_data){
       seq_len(nrow(harmony_tbl_lev)),
       function(x) {
         if (harmony_tbl_lev[x, ]$lev == "high") {
-          compute_pairwise_norm_scalar(
+          d = compute_pairwise_norm_scalar(
             harmony_data %>% magrittr::extract2(x),
             gran_x = "id_x",
             gran_facet = "id_facet",
             response = sim_data,
-            quantile_prob,
-            dist_ordered,
-            lambda
+            quantile_prob = quantile_prob,
+            dist_ordered = dist_ordered,
+            lambda =lambda
           )
         }
         else {
-          compute_pairwise_norm(
+          d = compute_pairwise_norm(
             harmony_data %>% magrittr::extract2(x),
             gran_x = "id_x",
             gran_facet = "id_facet",
             response = sim_data,
-            quantile_prob,
-            dist_ordered,
-            lambda,
+            quantile_prob = quantile_prob,
+            dist_ordered = dist_ordered,
+            lambda = lambda,
             nperm = nperm
           )
         }
+        wpd_row <- bind_cols(harmony_data %>% magrittr::extract2(x) %>% distinct(x_variable, facet_variable), wpd =  d)
       }
     )
   }
