@@ -68,10 +68,10 @@ distance_all_pairwise <- function(sim_panel_quantiles,
 
 
   id_facet_ref <- sim_panel_quantiles$id_facet %>% unique() %>% as_tibble() %>%
-    set_names("id_facet") %>% mutate(id_facet_ref = row_number())
+    rlang::set_names("id_facet") %>% mutate(id_facet_ref = row_number())
 
   id_x_ref <-sim_panel_quantiles$id_x %>% unique() %>% as_tibble() %>%
-    set_names("id_x") %>% mutate(id_x_ref = row_number())
+    rlang::set_names("id_x") %>% mutate(id_x_ref = row_number())
 
   vm <- sim_panel_quantiles %>% left_join(id_facet_ref, by = "id_facet") %>% left_join(id_x_ref, by = "id_x") %>%
     dplyr::mutate(row_number = row_number())
