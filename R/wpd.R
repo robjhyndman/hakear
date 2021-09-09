@@ -35,7 +35,7 @@
 #'  h = harmonies1 %>% select(-facet_levels) %>% distinct() %>% mutate(facet_levels = NA)
 #'  all_harmony <- wpd(sm,
 #'   harmony_tbl = h,
-#'   response = general_supply_kwh, nperm = 200, use_perm = TRUE
+#'   response = general_supply_kwh, nperm = 200, use_perm = FALSE
 #' )
 #'
 #' @export
@@ -94,7 +94,7 @@ d = compute_pairwise_norm_scalar(
 )
 x %>% distinct(facet_variable, x_variable) %>% bind_cols(wpd=d)
       }
-)
+) %>% dplyr::bind_rows()
 
   } else {
     parallel::mclapply(
@@ -125,7 +125,7 @@ x %>% distinct(facet_variable, x_variable) %>% bind_cols(wpd=d)
         }
         wpd_row <- bind_cols(harmony_data %>% magrittr::extract2(x) %>% distinct(x_variable, facet_variable), wpd =  d)
       }
-    )
+    ) %>% dplyr::bind_rows()
   }
 }
   # wpd <- unlist(value) %>%
