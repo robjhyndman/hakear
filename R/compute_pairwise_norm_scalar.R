@@ -16,13 +16,13 @@
 #' sm <- smart_meter10 %>%
 #'   dplyr::filter(customer_id %in% c("10017936"))
 #' gran_x <- "day_week"
-#' gran_facet <- "week_fortnight"
-#' v <- compute_pairwise_norm_scalar(elec, gran_x, gran_facet,
-#'   response = general_supply_kwh, lambda = 0.90
+#' gran_facet <- "month_year"
+#' v <- compute_pairwise_norm_scalar(sm, gran_x, gran_facet,
+#'   response = general_supply_kwh, lambda = 0.67
 #' )
 #' # month of the year not working in this setup
 #' @export compute_pairwise_norm_scalar
-compute_pairwise_norm_scalar <- function(.data,
+  compute_pairwise_norm_scalar <- function(.data,
                                          gran_x = NULL,
                                          gran_facet = NULL,
                                          response = NULL,
@@ -45,6 +45,18 @@ compute_pairwise_norm_scalar <- function(.data,
   # fitting a log-linear model and normalising for the number of distances
   #(raw - 0.0027 * log(nrow(dist_data))) %>% round(digits = 3)
 
-  (raw - 1/(23.5 - 0.99 * log(nrow(dist_data))))*320 %>%
-    round(digits = 3)
+# for two granularities
+  if(!is.na(gran_facet))
+  {
+    (raw - 1/(23.4 - 0.96 * log(nrow(dist_data))))*320 %>%
+      round(digits = 3)
+
+  }
+
+# for one granularity
+
+  else{
+    (raw - 1/(26.09 - 1.87 * log(nrow(dist_data))))*260 %>%
+      round(digits = 3)
+  }
 }
