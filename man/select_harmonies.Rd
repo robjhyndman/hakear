@@ -12,7 +12,7 @@ select_harmonies(
   dist_ordered = TRUE,
   lambda = 0.67,
   nperm = 200,
-  use_perm = FALSE,
+  use_perm = TRUE,
   nsamp = 200
 )
 }
@@ -56,5 +56,9 @@ harmonies <- sm \%>\%
 all_harmony <- select_harmonies(sm,
   harmony_tbl = h,
   response = general_supply_kwh, nperm = 200, nsamp = 20
+)
+all_harmony2 <- select_harmonies(sm,
+  harmony_tbl = harmonies,
+  response = general_supply_kwh, nperm = 20, nsamp = 20
 )
 }

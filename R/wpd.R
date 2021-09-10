@@ -35,7 +35,7 @@
 #'  h = harmonies1 %>% select(-facet_levels) %>% distinct() %>% mutate(facet_levels = NA)
 #'  all_harmony <- wpd(sm,
 #'   harmony_tbl = h,
-#'   response = general_supply_kwh, nperm = 200, use_perm = FALSE
+#'   response = general_supply_kwh, nperm = 200, use_perm = TRUE
 #' )
 #'
 #' @export
@@ -68,8 +68,6 @@ wpd <- function(.data,
     ) %>%
     dplyr::group_keys() %>%
     left_join(harmony_tbl, by = c("facet_variable", "x_variable"))
-
-
 
   if(all(is.na(harmony_tbl$facet_levels))){
     harmony_tbl_lev <- harmony_tbl %>% dplyr::mutate(lev = dplyr::if_else(x_levels <= 5, "low", "high"))
