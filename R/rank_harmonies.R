@@ -42,14 +42,10 @@ rank_harmonies <- function(.data,
                  lambda,
                  nperm,
                  use_perm) %>%
-    unlist() %>%
     tibble::as_tibble()
 
 
   harmony_tbl %>%
-    dplyr::bind_cols(wpd_obs) %>%
-    dplyr::rename(wpd = value) %>%
+    dplyr::left_join(wpd_obs, by=c("facet_variable", "x_variable")) |>
     dplyr::arrange(-wpd)
-  #                            gt_maxpd = max_pd > right_quantile_maxpd)
-
 }
